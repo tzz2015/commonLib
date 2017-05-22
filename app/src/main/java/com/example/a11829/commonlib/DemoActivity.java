@@ -1,5 +1,6 @@
 package com.example.a11829.commonlib;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import rx.Subscription;
 import rx.functions.Action1;
 
 public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDemoBinding> implements View.OnClickListener,DemoActivityContact.View {
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +49,10 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
                 mPresenter.getData();
                 break;
             case R.id.tv_rx_bus://发送消息可在任何地方
-                RxBus.getDefault().post(RxCodeConstants.SHOW_TOAST,2);
+                RxBus.getDefault().post(RxCodeConstants.SHOW_TOAST,"发送消息可在任何地方");
                 break;
             case R.id.tv_rx_permission://y异步获取权限
+                requestPermission(new String[]{Manifest.permission.CAMERA});
                 break;
         }
         if(intent!=null){
@@ -57,6 +60,14 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
         }
     }
 
+    /**
+     * 授权回调
+     * @param aBoolean
+     */
+    @Override
+    protected void requestPermissionCallBack(Boolean aBoolean) {
+        super.requestPermissionCallBack(aBoolean);
+    }
 
     /**
      * 请求网络完成回显
@@ -72,13 +83,19 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
      */
     @Override
     public void initRxBus() {
-        Subscription subscribe = RxBus.getDefault().toObservable(RxCodeConstants.SHOW_TOAST, Integer.class)
-                .subscribe(new Action1<Integer>() {
+        Subscription subscribe = RxBus.getDefault().toObservable(RxCodeConstants.SHOW_TOAST, String.class)
+                .subscribe(new Action1<String>() {
                     @Override
-                    public void call(Integer integer) {
-                        Toast.makeText(context,"首页收到消息",Toast.LENGTH_SHORT).show();
+                    public void call(String s) {
+                        Toast.makeText(context,"首页收到消息---："+s,Toast.LENGTH_SHORT).show();
+
                     }
                 });
         addSubscription(subscribe);
+
+
+
     }
+
+
 }

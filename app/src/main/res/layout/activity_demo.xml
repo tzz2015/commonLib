@@ -1,66 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <data >
+
+    <data>
+
         <variable
             name="userInfo"
-            type="com.zyf.fwms.commonlibrary.model.UserInfoModel"/>
+            type="com.zyf.fwms.commonlibrary.model.UserInfoModel" />
     </data>
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_recyclerView"
-            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_bright"
-            android:textSize="30px"
-            android:padding="20px"
             android:gravity="center"
+            android:padding="20px"
             android:text="RecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/colorWhite"
+            android:textSize="30px" />
+
         <TextView
-            android:text="网络请求"
             android:id="@+id/tv_request"
-            android:padding="20px"
-            android:gravity="center"
-            android:background="@color/colorWhite"
-            android:textColor="@android:color/black"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:padding="20px"
+            android:text="网络请求"
+            android:textColor="@android:color/black"
+            android:textSize="30px" />
 
 
         <LinearLayout
-            android:background="@android:color/darker_gray"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:orientation="vertical">
+
             <TextView
-                android:padding="5px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20px"
                 android:text="@{`网络请求返回:`+(userInfo.phone ??``)}"
                 android:textColor="@color/colorWhite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="30px" />
         </LinearLayout>
 
         <TextView
-            android:background="@android:color/holo_orange_light"
-            android:padding="5px"
-            android:gravity="center"
             android:id="@+id/tv_rx_bus"
-            android:text="RxBus"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:padding="5px"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_light"
             android:gravity="center"
-            android:id="@+id/tv_rx_permission"
-            android:text="RxPermission"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:padding="20px"
+            android:text="RxBus"
+            android:textColor="@color/colorWhite"
+            android:textSize="30px" />
 
+        <TextView
+            android:id="@+id/tv_rx_permission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:gravity="center"
+            android:padding="20px"
+            android:text="RxPermission"
+            android:textColor="@color/colorWhite"
+            android:textSize="30px" />
+    </LinearLayout>
 
 
 </layout>

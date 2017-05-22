@@ -15,18 +15,22 @@ import android.widget.RelativeLayout;
 
 import com.example.a11829.commonlib.http.HttpTask;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.zyf.fwms.commonlibrary.R;
 import com.zyf.fwms.commonlibrary.databinding.ActivityBaseBinding;
 import com.zyf.fwms.commonlibrary.http.HttpUtils;
 import com.zyf.fwms.commonlibrary.model.AccountInfo;
+import com.zyf.fwms.commonlibrary.model.RxCodeConstants;
 import com.zyf.fwms.commonlibrary.model.UserInfoModel;
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
+import com.zyf.fwms.commonlibrary.utils.RxBus;
 import com.zyf.fwms.commonlibrary.utils.SharedPreUtil;
 import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
 import com.zyf.fwms.commonlibrary.utils.TUtil;
 
 import rx.Subscription;
+import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -42,6 +46,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     protected Context context;
     protected HttpTask httpTask;
     public E mPresenter;
+    private RxPermissions rxPermissions;
 
     protected <T extends View> T getView(int id) {
         return (T) findViewById(id);
@@ -208,6 +213,32 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
+    }
+
+    /**
+     * 请求权限
+     */
+    public void requestPermission(String[] permissions) {
+        if(rxPermissions==null){
+            rxPermissions = new RxPermissions(this);
+        }
+        Subscription subscribe = rxPermissions
+                .request(permissions)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        requestPermissionCallBack(aBoolean);
+                    }
+                });
+        addSubscription(subscribe);
+    }
+
+    /**
+     * 请求结果
+     * @param aBoolean
+     */
+    protected void requestPermissionCallBack(Boolean aBoolean) {
+        RxBus.getDefault().post(RxCodeConstants.SHOW_TOAST,"请求权限结果:"+aBoolean);
     }
 
     /**

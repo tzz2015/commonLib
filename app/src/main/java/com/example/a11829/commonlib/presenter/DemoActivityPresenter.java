@@ -30,6 +30,8 @@ public class DemoActivityPresenter extends DemoActivityContact.Presenter impleme
                 .setCallBack(this).create();
     }
 
+
+
     @Override
     public void onSuccess(int requestId, Object o) {
         switch (requestId){
@@ -42,6 +44,7 @@ public class DemoActivityPresenter extends DemoActivityContact.Presenter impleme
 
     @Override
     public void onException(int requestId) {
+
 
     }
 }
