@@ -11,7 +11,7 @@ import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
- * 杭州融科网络
+ *
  * 刘宇飞 创建 on 2017/5/20.
  * 描述：
  */

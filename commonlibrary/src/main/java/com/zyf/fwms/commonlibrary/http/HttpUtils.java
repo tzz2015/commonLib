@@ -15,7 +15,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * 杭州融科网络
+ *
  * 刘宇飞 创建 on 2017/5/15.
  * 描述：
  */

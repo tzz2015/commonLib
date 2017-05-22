@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 /**
- * 杭州融科网络
+ *
  * 刘宇飞 创建 on 2017/5/19.
  * 描述：
  */

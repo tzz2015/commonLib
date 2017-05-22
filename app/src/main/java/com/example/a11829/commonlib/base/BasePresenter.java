@@ -4,7 +4,7 @@ package com.example.a11829.commonlib.base;
 import com.example.a11829.commonlib.http.HttpTask;
 
 /**
- * 公司：杭州融科网络科技
+ * 公司：
  * 刘宇飞 创建 on 2017/3/6.
  * 描述：p 基类
  */

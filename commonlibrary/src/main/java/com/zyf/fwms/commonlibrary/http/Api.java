@@ -1,7 +1,7 @@
 package com.zyf.fwms.commonlibrary.http;
 
 /**
- * 杭州融科网络
+ *
  * 刘宇飞 创建 on 2017/5/15.
  * 描述：
  */
