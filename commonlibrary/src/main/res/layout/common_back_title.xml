@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+  <RelativeLayout
+      android:id="@+id/rl_title_bar"
+      android:background="@color/colorTitle"
+      android:layout_width="match_parent"
+      android:layout_height="90px">
+    <LinearLayout
+        android:id="@+id/ll_lift_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+      <ImageView
+
+          android:id="@+id/iv_icon_back"
+          android:layout_marginLeft="27px"
+          android:layout_marginRight="27px"
+          android:layout_gravity="center"
+          android:src="@mipmap/icon_back"
+          android:scaleType="fitXY"
+          android:layout_width="43px"
+          android:layout_height="43px" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_title"
+        android:textSize="33px"
+        android:textColor="@color/colorWhite"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/ll_right_img"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+      <ImageView
+          android:id="@+id/iv_right_img"
+          android:layout_marginLeft="20px"
+          android:layout_marginRight="20px"
+          android:layout_gravity="center_vertical"
+          android:layout_width="50px"
+          android:layout_height="50px" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_right_text"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+      <TextView
+          android:id="@+id/tv_right_text"
+          android:textSize="35px"
+          android:textColor="@color/colorWhite"
+          android:gravity="center"
+          android:paddingLeft="20px"
+          android:paddingRight="20px"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent" />
+    </LinearLayout>
+  </RelativeLayout>
+
+</layout>
+
