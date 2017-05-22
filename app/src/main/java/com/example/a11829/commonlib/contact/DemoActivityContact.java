@@ -13,6 +13,7 @@ import com.zyf.fwms.commonlibrary.model.UserInfoModel;
 public interface DemoActivityContact {
     interface View extends BaseView {
        void setView(UserInfoModel userInfoModel);
+        void  initRxBus();
 
     }
     abstract   class Presenter extends BasePresenter<View> {

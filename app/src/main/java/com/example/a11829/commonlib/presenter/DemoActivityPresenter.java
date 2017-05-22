@@ -33,7 +33,7 @@ public class DemoActivityPresenter extends DemoActivityContact.Presenter impleme
     @Override
     public void onSuccess(int requestId, Object o) {
         switch (requestId){
-            case 10:
+            case 10://网络请求完成
                 UserInfoModel userInfoModel= (UserInfoModel) o;
                 mView.setView(userInfoModel);
                 break;
