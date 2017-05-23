@@ -87,7 +87,7 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        Toast.makeText(context,"首页收到消息---："+s,Toast.LENGTH_SHORT).show();
+                        showToast("首页收到消息---："+s);
 
                     }
                 });
