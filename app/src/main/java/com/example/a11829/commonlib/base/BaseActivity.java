@@ -81,7 +81,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         StatusBarUtil.setColor(this, CommonUtils.getColor(this,R.color.colorTitle),0);
         initLisener();
         context=this;
-        //移动到application
+        //根据设计稿设定 preview 切换至对应的尺寸
         AutoUtils.setSize(this, false, 720, 1280);
         //自适应页面
         AutoUtils.auto(this);

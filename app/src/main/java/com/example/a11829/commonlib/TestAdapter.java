@@ -15,7 +15,6 @@ public class TestAdapter extends BaseRecyclerViewAdapter<String> {
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new TestHolder(parent, R.layout.layout_test_item);
-
     }
 
 
