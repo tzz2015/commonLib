@@ -11,11 +11,11 @@ import java.util.List;
 /**
  * Created by jingbin on 2016/11/25
  */
-public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
+public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
-    protected List<T> data = new ArrayList<>();
-    protected OnItemClickListener<T> listener;
-    protected OnItemLongClickListener<T> onItemLongClickListener;
+    protected List<BaseRrecyclerModel> data = new ArrayList<>();
+    protected OnItemClickListener<BaseRrecyclerModel> listener;
+    protected OnItemLongClickListener<BaseRrecyclerModel> onItemLongClickListener;
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, final int position) {
@@ -56,11 +56,11 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return data.size();
     }
 
-    public void addAll(List<T> data) {
+    public void addAll(List<BaseRrecyclerModel> data) {
         this.data.addAll(data);
     }
 
-    public void add(T object) {
+    public void add(BaseRrecyclerModel object) {
         data.add(object);
     }
 
@@ -68,26 +68,26 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         data.clear();
     }
 
-    public void remove(T object) {
+    public void remove(BaseRrecyclerModel object) {
         data.remove(object);
     }
     public void remove(int position) {
         data.remove(position);
     }
-    public void removeAll(List<T> data) {
+    public void removeAll(List<BaseRrecyclerModel> data) {
         this.data.retainAll(data);
     }
 
-    public void setOnItemClickListener(OnItemClickListener<T> listener) {
+    public void setOnItemClickListener(OnItemClickListener<BaseRrecyclerModel> listener) {
         this.listener = listener;
     }
 
 
-    public List<T> getData() {
+    public List<BaseRrecyclerModel> getData() {
         return data;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener<T> onItemLongClickListener) {
+    public void setOnItemLongClickListener(OnItemLongClickListener<BaseRrecyclerModel> onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 }

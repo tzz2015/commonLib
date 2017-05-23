@@ -8,8 +8,10 @@ import android.widget.Toast;
 
 import com.example.a11829.commonlib.base.BasePresenter;
 import com.example.a11829.commonlib.databinding.ActivityMainBinding;
+import com.example.a11829.commonlib.model.TestModel;
 import com.example.xrecyclerview.XRecyclerView;
 import com.example.a11829.commonlib.base.BaseActivity;
+import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRrecyclerModel;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemClickListener;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemLongClickListener;
 
@@ -18,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding> implements XRecyclerView.LoadingListener {
 
-    private List<String> dataList=new ArrayList<>();
+    private List<BaseRrecyclerModel> dataList=new ArrayList<>();
     private TestAdapter adapter;
 
     @Override
@@ -49,16 +51,22 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         bindingView.xRecyclerView.setLoadingListener(this);
         bindingView.xRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        adapter.setOnItemClickListener(new OnItemClickListener<String>() {
+        adapter.setOnItemClickListener(new OnItemClickListener<BaseRrecyclerModel>() {
             @Override
-            public void onClick(View view, String s, int position) {
-                Toast.makeText(getApplicationContext(),"点击："+s,Toast.LENGTH_SHORT).show();
+            public void onClick(View view, BaseRrecyclerModel s, int position) {
+                if(s instanceof TestModel){
+                    Toast.makeText(getApplicationContext(),"点击："+((TestModel) s).name,Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
-        adapter.setOnItemLongClickListener(new OnItemLongClickListener<String>() {
+        adapter.setOnItemLongClickListener(new OnItemLongClickListener<BaseRrecyclerModel>() {
             @Override
-            public void onLongClick(View view, String s, int position) {
-                Toast.makeText(getApplicationContext(),"长按："+s,Toast.LENGTH_SHORT).show();
+            public void onLongClick(View view, BaseRrecyclerModel s, int position) {
+                if(s instanceof TestModel){
+                    Toast.makeText(getApplicationContext(),"长按："+((TestModel) s).name,Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -71,7 +79,10 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
            dataList.clear();
         }
         for(int i=0;i<20;i++){
-            dataList.add("数据："+i);
+            TestModel testModel=new TestModel();
+            testModel.viewType=TestAdapter.TEST_ITEM;//这里是关键 一一对应
+            testModel.name="数据："+i;
+            dataList.add(testModel);
         }
         bindingView.xRecyclerView.refreshComplete();
         if(adapter!=null){
