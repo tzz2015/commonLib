@@ -24,10 +24,11 @@ public class DemoActivityPresenter extends DemoActivityContact.Presenter impleme
         map.put("source","APP");
         map.put("userId","215");
         HttpPresenter.getInstance()
-                .setRequsetId(10)
-                .setContext(mContext)
-                .setObservable(httpTask.requestLogin(map))
-                .setCallBack(this).create();
+                .setRequsetId(10)   //请求id 非必须
+                .setContext(mContext)  //上下文 非必须  没有不显示进度框
+                .setObservable(httpTask.requestLogin(map))  //必须
+                .setCallBack(this)  //回调 非必须
+                .create();
     }
 
 
