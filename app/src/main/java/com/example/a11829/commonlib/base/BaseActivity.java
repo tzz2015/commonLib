@@ -24,6 +24,7 @@ import com.zyf.fwms.commonlibrary.model.RxCodeConstants;
 import com.zyf.fwms.commonlibrary.model.UserInfoModel;
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
+import com.zyf.fwms.commonlibrary.utils.LogUtil;
 import com.zyf.fwms.commonlibrary.utils.RxBus;
 import com.zyf.fwms.commonlibrary.utils.SharedPreUtil;
 import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
@@ -64,7 +65,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
             mPresenter.httpTask = mHttpTask;
         }
         initPresenter();
-
+        LogUtil.getInstance().e(getClass().toString());
     }
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

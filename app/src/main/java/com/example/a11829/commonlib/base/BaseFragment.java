@@ -19,6 +19,7 @@ import com.zyf.fwms.commonlibrary.R;
 import com.zyf.fwms.commonlibrary.http.HttpUtils;
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
+import com.zyf.fwms.commonlibrary.utils.LogUtil;
 import com.zyf.fwms.commonlibrary.utils.PerfectClickListener;
 import com.zyf.fwms.commonlibrary.utils.TUtil;
 
@@ -54,6 +55,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
             mPresenter.httpTask = mHttpTask;
             mPresenter.mContext= mContext;
         }
+        LogUtil.getInstance().e(getClass().toString());
     }
 
     @Nullable
