@@ -15,7 +15,8 @@ import java.util.List;
 public class SharedPreUtil {
 	
 	private static final String FILE_NAME = "config";
-	
+	private static volatile SharedPreferences sp;
+
 	/**
 	 * 获取布局型变量的值
 	 * @param context 
@@ -24,16 +25,15 @@ public class SharedPreUtil {
 	 * @return
 	 */
 	public static boolean getBoolean(Context context, String key, boolean defValue) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		return sp.getBoolean(key, defValue);
+
+		return getSP(context).getBoolean(key, defValue);
 	}
 	
 	/**
 	 * 保存boolean变量
 	 */
 	public static void saveBoolean(Context context, String key, boolean value) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		sp.edit().putBoolean(key, value).commit();
+		getSP(context).edit().putBoolean(key, value).commit();
 	}
 	
 	
@@ -45,16 +45,15 @@ public class SharedPreUtil {
 	 * @return
 	 */
 	public static String getString(Context context, String key, String defValue) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		return sp.getString(key, defValue);
+
+		return getSP(context).getString(key, defValue);
 	}
 
 	/**
 	 * 保存字符串变量
 	 */
 	public static void saveString(Context context, String key, String value) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		sp.edit().putString(key, value).commit();
+		getSP(context).edit().putString(key, value).commit();
 	}
 	/**
 	 * 获取整型变量的值
@@ -64,8 +63,7 @@ public class SharedPreUtil {
 	 * @return
 	 */
 	public static int getInt(Context context, String key, int defValue) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		return sp.getInt(key,defValue);
+		return getSP(context).getInt(key,defValue);
 	}
 
 
@@ -73,8 +71,7 @@ public class SharedPreUtil {
 	 * 保存整型变量
 	 */
 	public static void saveInt(Context context, String key, int value) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		sp.edit().putInt(key,value).commit();
+		getSP(context).edit().putInt(key,value).commit();
 	}
 
 	/**
@@ -85,16 +82,14 @@ public class SharedPreUtil {
 	 * @return
 	 */
 	public static long getLong(Context context, String key, long defValue) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		return sp.getLong(key,defValue);
+		return getSP(context).getLong(key,defValue);
 	}
 
 	/**
 	 * 保存Long变量
 	 */
 	public static void saveLong(Context context, String key, long value) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		sp.edit().putLong(key,value).commit();
+		getSP(context).edit().putLong(key,value).commit();
 	}
 
 	/**
@@ -104,8 +99,7 @@ public class SharedPreUtil {
 	 * 14.
 	 */
 	public static  <T> void setDataList(Context context, String tag, List<T> datalist) {
-		SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sp.edit();
+		SharedPreferences.Editor editor = getSP(context).edit();
 
 		if (null == datalist || datalist.size() <= 0)
 			return;
@@ -125,9 +119,8 @@ public class SharedPreUtil {
 	 * @return
 	 */
 	public static <T> List<T> getDataList(Context context, String tag) {
-		SharedPreferences preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 		List<T> datalist = new ArrayList<T>();
-		String strJson = preferences.getString(tag, null);
+		String strJson = getSP(context).getString(tag, null);
 		if (null == strJson) {
 			return datalist;
 		}
@@ -144,8 +137,7 @@ public class SharedPreUtil {
 	 * @return
 	 */
 	public static <T> List<T> getDataList(Context context, String tag, Class<T> cls) {
-		SharedPreferences preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-		String strJson = preferences.getString(tag, null);
+		String strJson = getSP(context).getString(tag, null);
 		List<T> list = new ArrayList<T>();
 		try {
 			Gson gson = new Gson();
@@ -159,6 +151,21 @@ public class SharedPreUtil {
 		return list;
 
 
+	}
+
+	/**
+	 * 获取sp实例
+	 */
+	private static  SharedPreferences getSP(Context context){
+		if(sp==null){
+			synchronized (SharedPreUtil.class){
+				if(sp==null){
+					context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+				}
+			}
+
+		}
+		return sp;
 	}
 
 

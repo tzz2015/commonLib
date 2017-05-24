@@ -21,8 +21,7 @@ public class ImgLoadUtil {
 
     private static ImgLoadUtil instance;
 
-    private ImgLoadUtil() {
-    }
+    private ImgLoadUtil() {}
 
     public static ImgLoadUtil getInstance() {
         if (instance == null) {

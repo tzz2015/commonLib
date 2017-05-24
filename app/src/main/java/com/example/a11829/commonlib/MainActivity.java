@@ -41,15 +41,15 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
      * 初始化recyclerview
      */
     private void initRecyclerView() {
-        bindingView.xRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mBindingView.xRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // 需加，不然滑动不流畅
-        bindingView.xRecyclerView.setNestedScrollingEnabled(false);
-        bindingView.xRecyclerView.setHasFixedSize(false);
-        bindingView.xRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mBindingView.xRecyclerView.setNestedScrollingEnabled(false);
+        mBindingView.xRecyclerView.setHasFixedSize(false);
+        mBindingView.xRecyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new TestAdapter();
         adapter.addAll(dataList);
-        bindingView.xRecyclerView.setLoadingListener(this);
-        bindingView.xRecyclerView.setAdapter(adapter);
+        mBindingView.xRecyclerView.setLoadingListener(this);
+        mBindingView.xRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener(new OnItemClickListener<BaseRrecyclerModel>() {
             @Override
@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
             testModel.name="数据："+i;
             dataList.add(testModel);
         }
-        bindingView.xRecyclerView.refreshComplete();
+        mBindingView.xRecyclerView.refreshComplete();
         if(adapter!=null){
             adapter.clear();
             adapter.addAll(dataList);

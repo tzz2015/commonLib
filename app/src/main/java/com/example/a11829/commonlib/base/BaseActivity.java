@@ -40,11 +40,11 @@ import rx.subscriptions.CompositeSubscription;
  */
 public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBinding> extends FragmentActivity {
     //布局view
-    protected SV bindingView;
+    protected SV mBindingView;
     private ActivityBaseBinding mBaseBinding;
     private CompositeSubscription mCompositeSubscription;
-    protected Context context;
-    protected HttpTask httpTask;
+    protected Context mContext;
+    protected HttpTask mHttpTask;
     public E mPresenter;
     private RxPermissions rxPermissions;
 
@@ -57,11 +57,11 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         super.onCreate(savedInstanceState);
         //隐藏标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        httpTask = HttpUtils.getInstance().createRequest(HttpTask.class);
+        mHttpTask = HttpUtils.getInstance().createRequest(HttpTask.class);
         mPresenter = TUtil.getT(this, 0);
         if (mPresenter != null) {
             mPresenter.mContext = this;
-            mPresenter.httpTask = httpTask;
+            mPresenter.httpTask = mHttpTask;
         }
         initPresenter();
 
@@ -69,18 +69,19 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
+        //标题栏已经在activity_base 不用到每个布局里面添加
         mBaseBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_base, null, false);
-        bindingView = DataBindingUtil.inflate(getLayoutInflater(), layoutResID, null, false);
+        mBindingView = DataBindingUtil.inflate(getLayoutInflater(), layoutResID, null, false);
         // content
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        bindingView.getRoot().setLayoutParams(params);
+        mBindingView.getRoot().setLayoutParams(params);
         RelativeLayout mContainer = mBaseBinding.container;
-        mContainer.addView(bindingView.getRoot());
+        mContainer.addView(mBindingView.getRoot());
         getWindow().setContentView(mBaseBinding.getRoot());
         // 设置透明状态栏
         StatusBarUtil.setColor(this, CommonUtils.getColor(this,R.color.colorTitle),0);
         initLisener();
-        context=this;
+        mContext =this;
         //根据设计稿设定 preview 切换至对应的尺寸
         AutoUtils.setSize(this, false, 720, 1280);
         //自适应页面
@@ -164,8 +165,8 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         }
         if(width>0&&height>0){
             ViewGroup.LayoutParams layoutParams = mBaseBinding.commonTitle.ivRightImg.getLayoutParams();
-            layoutParams.width=CommonUtils.dip2px(context,width);
-            layoutParams.height=CommonUtils.dip2px(context,height);
+            layoutParams.width=CommonUtils.dip2px(mContext,width);
+            layoutParams.height=CommonUtils.dip2px(mContext,height);
             mBaseBinding.commonTitle.ivRightImg.setLayoutParams(layoutParams);
         }
     }
@@ -182,7 +183,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
      * @param title
      */
     protected   void showToast(String title) {
-      CommonUtils.showToast(context,title);
+      CommonUtils.showToast(mContext,title);
     }
     private KProgressHUD mProgressDialog;
 
@@ -247,10 +248,10 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     protected void showErroView(boolean isShow){
         if(isShow){
             mBaseBinding.llErrorRefresh.setVisibility(View.VISIBLE);
-            bindingView.getRoot().setVisibility(View.GONE);
+            mBindingView.getRoot().setVisibility(View.GONE);
         }else {
             mBaseBinding.llErrorRefresh.setVisibility(View.GONE);
-            bindingView.getRoot().setVisibility(View.VISIBLE);
+            mBindingView.getRoot().setVisibility(View.VISIBLE);
         }
     }
 

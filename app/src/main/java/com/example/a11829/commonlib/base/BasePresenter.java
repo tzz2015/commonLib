@@ -1,6 +1,8 @@
 package com.example.a11829.commonlib.base;
 
 
+import android.content.Context;
+
 import com.example.a11829.commonlib.http.HttpTask;
 
 /**
@@ -10,7 +12,7 @@ import com.example.a11829.commonlib.http.HttpTask;
  */
 
 public abstract class BasePresenter<T>{
-    public BaseActivity mContext;
+    public Context mContext;
     public T mView;
     public HttpTask httpTask;
 

@@ -1,7 +1,6 @@
 package com.example.a11829.commonlib.base;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -33,31 +32,27 @@ import rx.subscriptions.CompositeSubscription;
  */
 public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePresenter> extends Fragment {
     //布局view
-    protected SV bindingView;
+    protected SV mBindingView;
     private CompositeSubscription mCompositeSubscription;
     // fragment是否显示了
     protected boolean mIsVisible = false;
     // 内容布局
     protected RelativeLayout mContainer;
-    protected Context context;
+    protected Context mContext;
     //加载失败
     private LinearLayout mRefresh;
-    protected HttpTask httpTask;
+    protected HttpTask mHttpTask;
     public T mPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        httpTask = HttpUtils.getInstance().createRequest(HttpTask.class);
+        mHttpTask = HttpUtils.getInstance().createRequest(HttpTask.class);
         mPresenter = TUtil.getT(this, 0);
+        mContext =getContext();
         if (mPresenter != null) {
-            mPresenter.httpTask = httpTask;
-            Activity activity = getActivity();
-            Class aClass = BaseActivity.class;
-            //判断actitvtiy是否是继承MyBaseActivity 否则不能用mContext和httpTask 会报转换异常
-            if (aClass.isAssignableFrom(activity.getClass())) {
-                mPresenter.mContext = (BaseActivity) this.getActivity();
-            }
+            mPresenter.httpTask = mHttpTask;
+            mPresenter.mContext= mContext;
         }
     }
 
@@ -66,12 +61,12 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View ll = inflater.inflate(R.layout.fragment_base, null);
         AutoUtils.auto(ll);
-        bindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), setContent(), null, false);
+        mBindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), setContent(), null, false);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        bindingView.getRoot().setLayoutParams(params);
+        mBindingView.getRoot().setLayoutParams(params);
         mContainer = (RelativeLayout) ll.findViewById(R.id.container);
-        mContainer.addView(bindingView.getRoot());
-        context=getContext();
+        mContainer.addView(mBindingView.getRoot());
+        mContext =getContext();
         mRefresh = getView(R.id.ll_error_refresh);
         // 点击加载失败布局
         mRefresh.setOnClickListener(new PerfectClickListener() {
@@ -142,7 +137,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
      * @param title
      */
     protected   void showToast(String title) {
-      CommonUtils.showToast(context,title);
+      CommonUtils.showToast(mContext,title);
     }
     private KProgressHUD mProgressDialog;
 
@@ -152,7 +147,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
      */
     public final void showInfoProgressDialog(final String... str) {
         if (mProgressDialog == null) {
-            mProgressDialog = new KProgressHUD(context);
+            mProgressDialog = new KProgressHUD(mContext);
             mProgressDialog.setCancellable(true);
         }
         if (str.length == 0) {
@@ -181,10 +176,10 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
     protected void showErroView(boolean isShow){
         if(isShow){
             mRefresh.setVisibility(View.VISIBLE);
-            bindingView.getRoot().setVisibility(View.GONE);
+            mBindingView.getRoot().setVisibility(View.GONE);
         }else {
             mRefresh.setVisibility(View.GONE);
-            bindingView.getRoot().setVisibility(View.VISIBLE);
+            mBindingView.getRoot().setVisibility(View.VISIBLE);
         }
     }
 

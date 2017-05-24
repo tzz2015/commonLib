@@ -44,8 +44,8 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseR
     @Override
     public int getItemViewType(int position) {
         if(data.get(position) instanceof BaseRrecyclerModel){
-            if(((BaseRrecyclerModel) data.get(position)).viewType!=0){
-                return ((BaseRrecyclerModel) data.get(position)).viewType;
+            if(( data.get(position)).viewType!=0){
+                return (data.get(position)).viewType;
             }
         }
         return super.getItemViewType(position);
