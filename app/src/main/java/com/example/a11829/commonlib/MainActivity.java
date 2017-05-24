@@ -80,8 +80,15 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         }
         for(int i=0;i<20;i++){
             TestModel testModel=new TestModel();
-            testModel.viewType=TestAdapter.TEST_ITEM;//这里是关键 一一对应
-            testModel.name="数据："+i;
+            if(i%2==0){
+                testModel.viewType=TestAdapter.TEST2_ITEM;//这里是关键 一一对应     类型2
+                testModel.name="我是类型2--："+i;
+            }else {
+                testModel.viewType=TestAdapter.TEST_ITEM;//这里是关键 一一对应      类型1
+                testModel.name="我是类型1--："+i;
+            }
+
+
             dataList.add(testModel);
         }
         mBindingView.xRecyclerView.refreshComplete();
