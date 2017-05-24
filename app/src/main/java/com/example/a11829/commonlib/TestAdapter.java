@@ -19,9 +19,9 @@ public class TestAdapter extends BaseRecyclerViewAdapter {
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             switch (viewType) {
-                case TEST_ITEM:
+                case TEST_ITEM://文字在左边
                     return new TestHolder(parent, R.layout.layout_test_item);
-                case TEST2_ITEM:
+                case TEST2_ITEM://文字在右边
                     return new TestHolder2(parent, R.layout.layout_test_item2);
                 default://这里执行到default里面 一定会崩溃
                     return null;
