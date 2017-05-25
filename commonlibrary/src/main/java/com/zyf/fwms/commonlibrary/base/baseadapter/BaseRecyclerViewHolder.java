@@ -27,12 +27,12 @@ public abstract class BaseRecyclerViewHolder< D extends ViewDataBinding> extends
      * @param object   the data of bind
      * @param position the item position of recyclerView
      */
-    public abstract void onBindViewHolder(BaseRrecyclerModel object, final int position);
+    public abstract void onBindViewHolder(BaseRecyclerModel object, final int position);
 
     /**
      * 当数据改变时，binding会在下一帧去改变数据，如果我们需要立即改变，就去调用executePendingBindings方法。
      */
-    void onBaseBindViewHolder(BaseRrecyclerModel object, final int position) {
+    void onBaseBindViewHolder(BaseRecyclerModel object, final int position) {
         onBindViewHolder(object, position);
         binding.executePendingBindings();
     }

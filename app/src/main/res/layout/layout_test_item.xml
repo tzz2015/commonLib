@@ -4,14 +4,14 @@
     <data >
         <variable
             name="item"
-            type="String"/>
+            type="com.example.a11829.commonlib.model.TestModel"/>
     </data>
 
     <TextView
         android:background="@android:color/black"
         android:id="@+id/tv_show"
         android:textColor="@android:color/white"
-        android:text="@{item}"
+        android:text="@{item.name}"
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

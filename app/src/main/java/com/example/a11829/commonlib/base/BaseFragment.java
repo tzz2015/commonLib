@@ -55,6 +55,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
             mPresenter.httpTask = mHttpTask;
             mPresenter.mContext= mContext;
         }
+        //打印类名
         LogUtil.getInstance().e(getClass().toString());
     }
 

@@ -65,6 +65,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
             mPresenter.httpTask = mHttpTask;
         }
         initPresenter();
+        //打印类名
         LogUtil.getInstance().e(getClass().toString());
     }
     @Override

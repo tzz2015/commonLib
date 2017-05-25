@@ -11,7 +11,7 @@ import com.example.a11829.commonlib.databinding.ActivityMainBinding;
 import com.example.a11829.commonlib.model.TestModel;
 import com.example.xrecyclerview.XRecyclerView;
 import com.example.a11829.commonlib.base.BaseActivity;
-import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRrecyclerModel;
+import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRecyclerModel;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemClickListener;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemLongClickListener;
 
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding> implements XRecyclerView.LoadingListener {
 
-    private List<BaseRrecyclerModel> dataList=new ArrayList<>();
+    private List<BaseRecyclerModel> dataList=new ArrayList<>();
     private TestAdapter adapter;
 
     @Override
@@ -51,18 +51,18 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         mBindingView.xRecyclerView.setLoadingListener(this);
         mBindingView.xRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        adapter.setOnItemClickListener(new OnItemClickListener<BaseRrecyclerModel>() {
+        adapter.setOnItemClickListener(new OnItemClickListener<BaseRecyclerModel>() {
             @Override
-            public void onClick(View view, BaseRrecyclerModel s, int position) {
+            public void onClick(View view, BaseRecyclerModel s, int position) {
                 if(s instanceof TestModel){
                     Toast.makeText(getApplicationContext(),"点击："+((TestModel) s).name,Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-        adapter.setOnItemLongClickListener(new OnItemLongClickListener<BaseRrecyclerModel>() {
+        adapter.setOnItemLongClickListener(new OnItemLongClickListener<BaseRecyclerModel>() {
             @Override
-            public void onLongClick(View view, BaseRrecyclerModel s, int position) {
+            public void onLongClick(View view, BaseRecyclerModel s, int position) {
                 if(s instanceof TestModel){
                     Toast.makeText(getApplicationContext(),"长按："+((TestModel) s).name,Toast.LENGTH_SHORT).show();
                 }

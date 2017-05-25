@@ -6,6 +6,6 @@ package com.zyf.fwms.commonlibrary.base.baseadapter;
  * 描述：
  */
 
-public class BaseRrecyclerModel {
+public class BaseRecyclerModel {
     public int viewType;
 }

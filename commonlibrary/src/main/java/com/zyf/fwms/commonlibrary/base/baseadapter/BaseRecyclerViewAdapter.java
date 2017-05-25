@@ -13,9 +13,9 @@ import java.util.List;
  */
 public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
-    protected List<BaseRrecyclerModel> data = new ArrayList<>();
-    protected OnItemClickListener<BaseRrecyclerModel> listener;
-    protected OnItemLongClickListener<BaseRrecyclerModel> onItemLongClickListener;
+    protected List<BaseRecyclerModel> data = new ArrayList<>();
+    protected OnItemClickListener<BaseRecyclerModel> listener;
+    protected OnItemLongClickListener<BaseRecyclerModel> onItemLongClickListener;
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, final int position) {
@@ -43,7 +43,7 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseR
 
     @Override
     public int getItemViewType(int position) {
-        if(data.get(position) instanceof BaseRrecyclerModel){
+        if(data.get(position) instanceof BaseRecyclerModel){
             if(( data.get(position)).viewType!=0){
                 return (data.get(position)).viewType;
             }
@@ -56,11 +56,11 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseR
         return data.size();
     }
 
-    public void addAll(List<BaseRrecyclerModel> data) {
+    public void addAll(List<BaseRecyclerModel> data) {
         this.data.addAll(data);
     }
 
-    public void add(BaseRrecyclerModel object) {
+    public void add(BaseRecyclerModel object) {
         data.add(object);
     }
 
@@ -68,26 +68,26 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseR
         data.clear();
     }
 
-    public void remove(BaseRrecyclerModel object) {
+    public void remove(BaseRecyclerModel object) {
         data.remove(object);
     }
     public void remove(int position) {
         data.remove(position);
     }
-    public void removeAll(List<BaseRrecyclerModel> data) {
+    public void removeAll(List<BaseRecyclerModel> data) {
         this.data.retainAll(data);
     }
 
-    public void setOnItemClickListener(OnItemClickListener<BaseRrecyclerModel> listener) {
+    public void setOnItemClickListener(OnItemClickListener<BaseRecyclerModel> listener) {
         this.listener = listener;
     }
 
 
-    public List<BaseRrecyclerModel> getData() {
+    public List<BaseRecyclerModel> getData() {
         return data;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener<BaseRrecyclerModel> onItemLongClickListener) {
+    public void setOnItemLongClickListener(OnItemLongClickListener<BaseRecyclerModel> onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 }

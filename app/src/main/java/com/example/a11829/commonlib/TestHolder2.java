@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import com.example.a11829.commonlib.databinding.LayoutTestItem2Binding;
 import com.example.a11829.commonlib.model.TestModel;
 import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRecyclerViewHolder;
-import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRrecyclerModel;
+import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRecyclerModel;
 
 /**
  *
@@ -18,9 +18,9 @@ public class TestHolder2 extends BaseRecyclerViewHolder<LayoutTestItem2Binding> 
     }
 
     @Override
-    public void onBindViewHolder(BaseRrecyclerModel model, int position) {
+    public void onBindViewHolder(BaseRecyclerModel model, int position) {
         if(model instanceof TestModel){
-                binding.setItem(((TestModel) model).name);
+                binding.setItem((TestModel) model);
         }
 
     }
