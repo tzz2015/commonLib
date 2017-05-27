@@ -57,33 +57,56 @@ public class WrapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    /**
+     * 是否是头布局
+     * @param position
+     * @return
+     */
     public boolean isHeader(int position) {
         return position >= 0 && position < mHeaderViews.size();
     }
 
+    /**
+     * 是否为底布局
+     * @param position
+     * @return
+     */
     public boolean isFooter(int position) {
         return position < getItemCount() && position >= getItemCount() - mFootViews.size();
     }
 
+    /**
+     * 是否可以刷新
+     * @param position
+     * @return
+     */
     public boolean isRefreshHeader(int position) {
         return position == 0;
     }
 
+    /**
+     * 头布局数目
+     * @return
+     */
     public int getHeadersCount() {
         return mHeaderViews.size();
     }
 
+    /**
+     * 底布局数目
+     * @return
+     */
     public int getFootersCount() {
         return mFootViews.size();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_REFRESH_HEADER) {
+        if (viewType == TYPE_REFRESH_HEADER) {  //刷新头布局
             return new SimpleViewHolder(mHeaderViews.get(0));
-        } else if (viewType == TYPE_HEADER) {
+        } else if (viewType == TYPE_HEADER) {  //自定义头布局
             return new SimpleViewHolder(mHeaderViews.get(headerPosition++));
-        } else if (viewType == TYPE_FOOTER) {
+        } else if (viewType == TYPE_FOOTER) {  //底布局
             return new SimpleViewHolder(mFootViews.get(0));
         }
         return adapter.onCreateViewHolder(parent, viewType);
@@ -116,18 +139,18 @@ public class WrapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (isRefreshHeader(position)) {
+        if (isRefreshHeader(position)) {//刷新头布局
             return TYPE_REFRESH_HEADER;
         }
-        if (isHeader(position)) {
+        if (isHeader(position)) {//头布局
             return TYPE_HEADER;
         }
-        if (isFooter(position)) {
+        if (isFooter(position)) {//底布局
             return TYPE_FOOTER;
         }
         int adjPosition = position - getHeadersCount();
         int adapterCount;
-        if (adapter != null) {
+        if (adapter != null) {//适配器布局
             adapterCount = adapter.getItemCount();
             if (adjPosition < adapterCount) {
                 return adapter.getItemViewType(adjPosition);

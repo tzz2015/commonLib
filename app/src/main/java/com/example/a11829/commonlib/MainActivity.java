@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
             @Override
             public void onClick(View view, BaseRecyclerModel s, int position) {
                 if(s instanceof TestModel){
-                    Toast.makeText(getApplicationContext(),"点击："+((TestModel) s).name,Toast.LENGTH_SHORT).show();
+                    showToast("点击："+((TestModel) s).name);
                 }
 
             }
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
             @Override
             public void onLongClick(View view, BaseRecyclerModel s, int position) {
                 if(s instanceof TestModel){
-                    Toast.makeText(getApplicationContext(),"长按："+((TestModel) s).name,Toast.LENGTH_SHORT).show();
+                    showToast("长按："+((TestModel) s).name);
                 }
 
             }

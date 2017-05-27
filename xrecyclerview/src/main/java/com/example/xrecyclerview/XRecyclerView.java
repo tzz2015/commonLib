@@ -146,10 +146,10 @@ public class XRecyclerView extends RecyclerView {
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
-
+        //滚动是否停止 是否有监听 是否需要加载更多 没有正在加载数据
         if (state == RecyclerView.SCROLL_STATE_IDLE && mLoadingListener != null && !isLoadingData && loadingMoreEnabled) {
             LayoutManager layoutManager = getLayoutManager();
-            int lastVisibleItemPosition;
+            int lastVisibleItemPosition;   //最后可见索引
             if (layoutManager instanceof GridLayoutManager) {
                 lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
             } else if (layoutManager instanceof StaggeredGridLayoutManager) {
