@@ -22,7 +22,7 @@ public class DemoActivityPresenter extends DemoActivityContact.Presenter impleme
         map.put("userType","2");
         map.put("alias", "ffffffff_c7a8_3c15_0000_00004ca6b30b");
         map.put("source","APP");
-        map.put("userId","215");
+        map.put("userId","280");
         HttpPresenter.getInstance()
                 .setRequsetId(10)   //请求id 非必须
                 .setContext(mContext)  //上下文 非必须  没有不显示进度框
