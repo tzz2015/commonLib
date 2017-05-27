@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
+import com.example.a11829.commonlib.base.BaseActivity;
 import com.example.a11829.commonlib.base.BasePresenter;
 import com.example.a11829.commonlib.databinding.ActivityMainBinding;
 import com.example.a11829.commonlib.model.TestModel;
 import com.example.xrecyclerview.XRecyclerView;
-import com.example.a11829.commonlib.base.BaseActivity;
 import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRecyclerModel;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemClickListener;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemLongClickListener;
