@@ -69,7 +69,12 @@ public class HttpPresenter<T>  implements HttpBuilder<T> {
                         public void onNext(BaseRespose<T> baseResponseVo) {
                             CommonUtils.getInstance().hideInfoProgressDialog();
                             if(listener!=null){
-                                listener.onSuccess(requstId,baseResponseVo.data);
+                                if(baseResponseVo.success){//请求成功
+                                    listener.onSuccess(requstId,baseResponseVo.data);
+                                }else {
+                                    CommonUtils.showToast(MyApplication.getContext(),baseResponseVo.msg);
+                                }
+
                             }
 
 
