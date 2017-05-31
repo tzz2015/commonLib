@@ -80,7 +80,7 @@
             android:background="@android:color/holo_green_dark"
             android:gravity="center"
             android:padding="20px"
-            android:text="RxPermission"
+            android:text="状态栏设置黑色"
             android:textColor="@color/colorWhite"
             android:textSize="30px" />
     </LinearLayout>
