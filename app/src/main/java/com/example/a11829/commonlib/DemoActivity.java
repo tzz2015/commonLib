@@ -30,6 +30,7 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
         mBindingView.tvRequest.setOnClickListener(this);
         mBindingView.tvRxBus.setOnClickListener(this);
         mBindingView.tvRxPermission.setOnClickListener(this);
+        mBindingView.tvWb.setOnClickListener(this);
     }
 
     @Override
@@ -52,6 +53,9 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
                 break;
             case R.id.tv_rx_permission://y异步获取权限
                 requestPermission(new String[]{Manifest.permission.CAMERA});
+                break;
+            case R.id.tv_wb://隐藏标题
+                intent=new Intent(mContext,NoTitleActivity.class);
                 break;
         }
         if(intent!=null){

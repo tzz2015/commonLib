@@ -73,6 +73,16 @@
             android:text="RxPermission"
             android:textColor="@color/colorWhite"
             android:textSize="30px" />
+        <TextView
+            android:id="@+id/tv_wb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_green_dark"
+            android:gravity="center"
+            android:padding="20px"
+            android:text="RxPermission"
+            android:textColor="@color/colorWhite"
+            android:textSize="30px" />
     </LinearLayout>
 
 
