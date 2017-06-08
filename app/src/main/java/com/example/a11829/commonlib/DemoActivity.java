@@ -34,6 +34,11 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
     }
 
     @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected void initPresenter() {
       mPresenter.setView(this);
     }

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by jingbin on 2016/11/25
  */
@@ -18,9 +20,10 @@ public abstract class BaseRecyclerViewHolder< D extends ViewDataBinding> extends
     public BaseRecyclerViewHolder(ViewGroup viewGroup, int layoutId) {
         // 注意要依附 viewGroup，不然显示item不全!!
         super(DataBindingUtil.inflate(LayoutInflater.from(viewGroup.getContext()), layoutId, viewGroup, false).getRoot());
-        AutoUtils.auto(LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false));
+        AutoUtils.auto(this.itemView);
         // 得到这个View绑定的Binding
         binding = DataBindingUtil.getBinding(this.itemView);
+        ButterKnife.bind(this,this.itemView);
     }
 
     /**

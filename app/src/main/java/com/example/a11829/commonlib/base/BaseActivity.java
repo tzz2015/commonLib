@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RelativeLayout;
 
+import com.example.a11829.commonlib.R;
 import com.example.a11829.commonlib.http.HttpTask;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.zyf.fwms.commonlibrary.R;
 import com.zyf.fwms.commonlibrary.databinding.ActivityBaseBinding;
 import com.zyf.fwms.commonlibrary.http.HttpUtils;
 import com.zyf.fwms.commonlibrary.model.AccountInfo;
@@ -30,6 +30,7 @@ import com.zyf.fwms.commonlibrary.utils.SharedPreUtil;
 import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
 import com.zyf.fwms.commonlibrary.utils.TUtil;
 
+import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
@@ -42,12 +43,12 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBinding> extends FragmentActivity {
     //布局view
     protected SV mBindingView;
-    private ActivityBaseBinding mBaseBinding;
     private CompositeSubscription mCompositeSubscription;
     protected Context mContext;
     protected HttpTask mHttpTask;
     public E mPresenter;
     private RxPermissions rxPermissions;
+    private ActivityBaseBinding mBaseBinding;
 
     protected <T extends View> T getView(int id) {
         return (T) findViewById(id);
@@ -67,6 +68,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         initPresenter();
         //打印类名
         LogUtil.getInstance().e(getClass().toString());
+
     }
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -80,18 +82,21 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         RelativeLayout mContainer = mBaseBinding.container;
         mContainer.addView(mBindingView.getRoot());
         getWindow().setContentView(mBaseBinding.getRoot());
+        ButterKnife.bind(this);
         // 设置透明状态栏
-        StatusBarUtil.setColor(this, CommonUtils.getColor(this,R.color.colorTitle),0);
+        StatusBarUtil.setColor(this, CommonUtils.getColor(this, com.zyf.fwms.commonlibrary.R.color.colorTitle),0);
         initLisener();
         mContext =this;
         //根据设计稿设定 preview 切换至对应的尺寸
         AutoUtils.setSize(this, false, 720, 1280);
         //自适应页面
         AutoUtils.auto(this);
-
+        initView();
 
 
     }
+
+    protected abstract void initView();
 
     protected abstract void initPresenter();
 
@@ -153,6 +158,13 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
             mBaseBinding.commonTitle.llRightImg.setOnClickListener(listener);
         }
     }
+
+
+
+    public  interface EditViewLisener{
+        void searchText(String searchText);
+        void onTextChanged(String searchText);
+    }
     /**
      * 设置右侧图片
      */
@@ -167,8 +179,8 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         }
         if(width>0&&height>0){
             ViewGroup.LayoutParams layoutParams = mBaseBinding.commonTitle.ivRightImg.getLayoutParams();
-            layoutParams.width=CommonUtils.dip2px(mContext,width);
-            layoutParams.height=CommonUtils.dip2px(mContext,height);
+            layoutParams.width= CommonUtils.dip2px(mContext,width);
+            layoutParams.height= CommonUtils.dip2px(mContext,height);
             mBaseBinding.commonTitle.ivRightImg.setLayoutParams(layoutParams);
         }
     }
@@ -300,5 +312,6 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }
+        ButterKnife.unbind(this);
     }
 }

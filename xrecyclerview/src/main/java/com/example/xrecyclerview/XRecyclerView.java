@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 /**
  * Created by jingbin on 2016/1/28.
  */
@@ -30,6 +32,7 @@ public class XRecyclerView extends RecyclerView {
     private static final float DRAG_RATE = 1.75f;
     // 是否是额外添加FooterView
     private boolean isOther = false;
+    private boolean sIsScrolling;
 
     public XRecyclerView(Context context) {
         this(context, null);
@@ -181,6 +184,18 @@ public class XRecyclerView extends RecyclerView {
                 }
             }
         }
+
+        if (state == RecyclerView.SCROLL_STATE_DRAGGING || state == RecyclerView.SCROLL_STATE_SETTLING) {//滚动中和惯性滑动
+            sIsScrolling = true;
+            Glide.with(getContext()).pauseRequests();
+        } else if (state == RecyclerView.SCROLL_STATE_IDLE) {//停止滚动
+            if (sIsScrolling == true) {
+                Glide.with(getContext()).resumeRequests();
+
+            }
+            sIsScrolling = false;
+        }
+
     }
 
     @Override

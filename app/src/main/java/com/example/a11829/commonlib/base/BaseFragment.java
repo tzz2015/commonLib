@@ -13,30 +13,28 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.a11829.commonlib.R;
 import com.example.a11829.commonlib.http.HttpTask;
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.zyf.fwms.commonlibrary.R;
+import com.zyf.fwms.commonlibrary.databinding.FragmentBaseBinding;
 import com.zyf.fwms.commonlibrary.http.HttpUtils;
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
 import com.zyf.fwms.commonlibrary.utils.LogUtil;
-import com.zyf.fwms.commonlibrary.utils.PerfectClickListener;
 import com.zyf.fwms.commonlibrary.utils.TUtil;
 
+import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- *
  * 刘宇飞创建 on 2017/5/18.
  * 描述：
  */
-public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePresenter> extends Fragment {
+public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePresenter> extends Fragment {
     //布局view
     protected SV mBindingView;
     private CompositeSubscription mCompositeSubscription;
-    // fragment是否显示了
-    protected boolean mIsVisible = false;
     // 内容布局
     protected RelativeLayout mContainer;
     protected Context mContext;
@@ -44,17 +42,19 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
     private LinearLayout mRefresh;
     protected HttpTask mHttpTask;
     public T mPresenter;
+    private FragmentBaseBinding mBaseBinding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHttpTask = HttpUtils.getInstance().createRequest(HttpTask.class);
-        mPresenter = TUtil.getT(this, 0);
-        mContext =getContext();
+        mPresenter = TUtil.getT(this, 1);
+        mContext = getContext();
         if (mPresenter != null) {
             mPresenter.httpTask = mHttpTask;
-            mPresenter.mContext= mContext;
+            mPresenter.mContext = mContext;
         }
+        initPresenter();
         //打印类名
         LogUtil.getInstance().e(getClass().toString());
     }
@@ -62,58 +62,47 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View ll = inflater.inflate(R.layout.fragment_base, null);
-        AutoUtils.auto(ll);
+        mBaseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_base, container, false);
         mBindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), setContent(), null, false);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mBindingView.getRoot().setLayoutParams(params);
-        mContainer = (RelativeLayout) ll.findViewById(R.id.container);
+        mContainer = mBaseBinding.container;
         mContainer.addView(mBindingView.getRoot());
-        mContext =getContext();
-        mRefresh = getView(R.id.ll_error_refresh);
-        // 点击加载失败布局
-        mRefresh.setOnClickListener(new PerfectClickListener() {
+        mContext = getContext();
+        initLisener();
+        initView();
+        loadData();
+        ButterKnife.bind(this, mBaseBinding.getRoot());
+        AutoUtils.auto(mBaseBinding.getRoot());
+        return mBaseBinding.getRoot();
+    }
+
+    protected abstract void initView();
+
+    protected abstract void initPresenter();
+
+    /**
+     * 加载数据
+     */
+    protected void loadData() {
+        LogUtil.getInstance().e("loadData()");
+    }
+
+
+
+    private void initLisener() {
+        mBaseBinding.llErrorRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void onNoDoubleClick(View v) {
+            public void onClick(View v) {
                 onRefresh();
             }
         });
-        initPresenter();
-        return ll;
-    }
-    protected abstract void initPresenter();
-    /**
-     * 在这里实现Fragment数据的缓加载.
-     */
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()) {
-            mIsVisible = true;
-            onVisible();
-        } else {
-            mIsVisible = false;
-            onInvisible();
-        }
-    }
-
-    protected void onInvisible() {
 
     }
 
-    /**
-     * 显示时加载数据,需要这样的使用
-     * 注意声明 isPrepared，先初始化
-     * 生命周期会先执行 setUserVisibleHint 再执行onActivityCreated
-     * 在 onActivityCreated 之后第一次显示加载数据，只加载一次
-     */
-    protected void loadData() {
 
-    }
 
-    protected void onVisible() {
-        loadData();
-    }
+
 
 
 
@@ -134,18 +123,20 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
     }
 
 
-
     /**
-     *显示toast
+     * 显示toast
+     *
      * @param title
      */
-    protected   void showToast(String title) {
-      CommonUtils.showToast(mContext,title);
+    protected void showToast(String title) {
+        CommonUtils.showToast(mContext, title);
     }
+
     private KProgressHUD mProgressDialog;
 
     /**
      * 显示进度框
+     *
      * @param str
      */
     public final void showInfoProgressDialog(final String... str) {
@@ -163,6 +154,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
             mProgressDialog.show();
         }
     }
+
     /**
      * 隐藏等待条
      */
@@ -176,11 +168,11 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
     /**
      * 显示错误页面或正常页面
      */
-    protected void showErroView(boolean isShow){
-        if(isShow){
+    protected void showErroView(boolean isShow) {
+        if (isShow) {
             mRefresh.setVisibility(View.VISIBLE);
             mBindingView.getRoot().setVisibility(View.GONE);
-        }else {
+        } else {
             mRefresh.setVisibility(View.GONE);
             mBindingView.getRoot().setVisibility(View.VISIBLE);
         }
@@ -188,6 +180,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
 
     /**
      * 添加网络请求观察者
+     *
      * @param s
      */
     public void addSubscription(Subscription s) {
@@ -212,5 +205,6 @@ public abstract class BaseFragment<SV extends ViewDataBinding,T extends BasePres
         super.onDestroy();
         hideInfoProgressDialog();
         removeSubscription();
+        ButterKnife.unbind(this);
     }
 }

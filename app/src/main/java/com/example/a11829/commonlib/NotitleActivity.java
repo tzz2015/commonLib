@@ -22,6 +22,11 @@ public class NoTitleActivity extends BaseActivity<BasePresenter,ActivityNotitleB
     }
 
     @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected void initPresenter() {
 
     }

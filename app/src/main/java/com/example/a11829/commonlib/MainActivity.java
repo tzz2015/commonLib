@@ -32,6 +32,11 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
     }
 
     @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected void initPresenter() {
 
     }
@@ -40,7 +45,9 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
      * 初始化recyclerview
      */
     private void initRecyclerView() {
-        mBindingView.xRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mBindingView.xRecyclerView.setLayoutManager(linearLayoutManager);
         // 需加，不然滑动不流畅
         mBindingView.xRecyclerView.setNestedScrollingEnabled(false);
         mBindingView.xRecyclerView.setHasFixedSize(false);
