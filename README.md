@@ -8,4 +8,3 @@ MVP+DataBinding+Rxjava+retrofit2
     4.recyclerview 下拉刷新上啦加载 适配器抽取</br>
     </br>
     ![image](https://github.com/tzz2015/commonLib/blob/master/file/Screenshot.png)
-
