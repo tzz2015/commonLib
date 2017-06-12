@@ -346,7 +346,15 @@ public class XRecyclerView extends RecyclerView {
     }
 
 
-
+    /**
+     * 重新设置列数
+     */
+    public void setSpanCount(int num){
+        RecyclerView.LayoutManager manager = this.getLayoutManager();
+        if (manager instanceof GridLayoutManager) {
+            ((GridLayoutManager) manager).setSpanCount(num);
+        }
+    }
     public void reset() {
         isnomore = false;
         previousTotal = 0;
