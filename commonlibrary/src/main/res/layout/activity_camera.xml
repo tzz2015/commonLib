@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_camera"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_99000000"
+    android:orientation="vertical"
+    android:paddingBottom="20px"
+    android:paddingLeft="20px"
+    android:paddingRight="20px">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_take_camera"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:background="@drawable/white_top_corners_bg"
+        android:gravity="center"
+        android:text="拍摄"
+        android:textColor="@color/color333333"
+        android:textSize="32px" />
+  <TextView
+      android:layout_width="match_parent"
+      android:background="@color/public_line_color"
+      android:layout_height="1px" />
+    <TextView
+        android:id="@+id/tv_take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:background="@drawable/white_bottom_corners_bg"
+        android:gravity="center"
+        android:text="从相册中选取"
+        android:textColor="@color/color333333"
+        android:textSize="32px" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:layout_marginTop="20px"
+        android:background="@drawable/white_big_corners_bg"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="#22c0ff"
+        android:textSize="32px" />
+
+</LinearLayout>

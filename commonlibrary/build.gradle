@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 
@@ -30,7 +30,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.2.0'
 
 
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -45,4 +44,7 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     /* 注解*/
     compile 'com.jakewharton:butterknife:7.0.1'
+    /** 拍照*/
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
+    compile 'com.android.support:appcompat-v7:23.1.1'
 }

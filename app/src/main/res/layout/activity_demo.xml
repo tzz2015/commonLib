@@ -92,6 +92,16 @@
             android:text="图片工具参考ImgLoadUtil"
             android:textColor="@color/colorWhite"
             android:textSize="30px" />
+        <TextView
+            android:id="@+id/tv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_dark"
+            android:gravity="center"
+            android:padding="20px"
+            android:text="拍照和从相册选择"
+            android:textColor="@color/colorWhite"
+            android:textSize="30px" />
     </LinearLayout>
 
 

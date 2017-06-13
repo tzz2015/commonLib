@@ -9,9 +9,14 @@ import com.example.a11829.commonlib.base.BaseActivity;
 import com.example.a11829.commonlib.contact.DemoActivityContact;
 import com.example.a11829.commonlib.databinding.ActivityDemoBinding;
 import com.example.a11829.commonlib.presenter.DemoActivityPresenter;
+import com.jph.takephoto.model.TImage;
 import com.zyf.fwms.commonlibrary.model.RxCodeConstants;
 import com.zyf.fwms.commonlibrary.model.UserInfoModel;
+import com.zyf.fwms.commonlibrary.photo.PhotoModel;
+import com.zyf.fwms.commonlibrary.utils.LogUtil;
 import com.zyf.fwms.commonlibrary.utils.RxBus;
+
+import java.util.List;
 
 import rx.Subscription;
 import rx.functions.Action1;
@@ -31,6 +36,7 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
         mBindingView.tvRxBus.setOnClickListener(this);
         mBindingView.tvRxPermission.setOnClickListener(this);
         mBindingView.tvWb.setOnClickListener(this);
+        mBindingView.tvPhoto.setOnClickListener(this);
     }
 
     @Override
@@ -62,10 +68,29 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
             case R.id.tv_wb://隐藏标题
                 intent=new Intent(mContext,NoTitleActivity.class);
                 break;
+            case R.id.tv_photo://拍照
+                takePhoto();
+                break;
         }
         if(intent!=null){
             startActivity(intent);
         }
+    }
+
+    private void takePhoto() {
+        PhotoModel photoModel=new PhotoModel(this);
+        photoModel.isCrop=false;
+        photoModel.maxSize=9;
+        photoModel.setCallback(new PhotoModel.OnHanlderResultCallback() {
+            @Override
+            public void onHanlderSuccess(List<TImage> resultList) {
+                showToast("返回照片数据看log");
+                for(TImage model:resultList){
+                    LogUtil.getInstance().e(model.getCompressPath());
+                }
+            }
+        });
+        photoModel.initTakePhoto();
     }
 
     /**

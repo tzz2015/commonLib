@@ -4,7 +4,11 @@
     <application
         android:allowBackup="true"
         android:supportsRtl="true">
-
+        <!-- 拍照-->
+        <activity android:name=".photo.CameraActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="nosensor"
+            android:theme="@android:style/Theme.Translucent" />
     </application>
 
 </manifest>
