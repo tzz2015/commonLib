@@ -79,12 +79,11 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
 
     private void takePhoto() {
         PhotoModel photoModel=new PhotoModel(this);
-        photoModel.isCrop=false;
-        photoModel.maxSize=9;
+        photoModel.isCrop=false;//是否裁剪
+        photoModel.maxSize=9;//选择照片的张数
         photoModel.setCallback(new PhotoModel.OnHanlderResultCallback() {
             @Override
             public void onHanlderSuccess(List<TImage> resultList) {
-                showToast("返回照片数据看log");
                 for(TImage model:resultList){
                     LogUtil.getInstance().e(model.getCompressPath());
                 }
