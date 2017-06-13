@@ -1,6 +1,7 @@
 package com.zyf.fwms.commonlibrary.utils;
 
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -97,7 +98,16 @@ public class ImgLoadUtil {
                 .error(R.mipmap.img_one_bi_one)
                 .crossFade().into(imageView);
     }
-
+    // 加载一般图片
+    @BindingAdapter({"imageUrl"})
+    public static void loadImage(ImageView view, String url){
+        display(view.getContext(),view,url);
+    }
+    // 加载圆形图片
+    @BindingAdapter({"circleImageUrl"})
+    public static void loadCircleImage(ImageView view, String url){
+        displayCircle(view,url);
+    }
     public static void display(Context context, ImageView imageView, File url) {
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
