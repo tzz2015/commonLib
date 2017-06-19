@@ -105,7 +105,7 @@ public class CameraActivity extends TakePhotoActivity {
                 .create();
         CompressConfig config = CompressConfig.ofLuban(option);
         config.enableReserveRaw(true);//是否保存原图
-        getTakePhoto().onEnableCompress(config, false);
+        getTakePhoto().onEnableCompress(config, true);
     }
 
     /**
@@ -134,13 +134,19 @@ public class CameraActivity extends TakePhotoActivity {
     }
 
     @Override
-    public void takeSuccess(TResult result) {
+    public void takeSuccess(final TResult result) {
         super.takeSuccess(result);
-        finish();
-        if (PhotoModel.callback != null) {
-            PhotoModel.callback.onHanlderSuccess(result.getImages());
-        }
 
+        if (PhotoModel.callback != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    PhotoModel.callback.onHanlderSuccess(result.getImages());
+                }
+            });
+
+        }
+        finish();
     }
 
 
