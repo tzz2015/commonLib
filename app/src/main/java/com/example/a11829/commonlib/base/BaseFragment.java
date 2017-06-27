@@ -197,6 +197,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePre
         CommonUtils.getInstance().removeSubscription();
         if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
             this.mCompositeSubscription.unsubscribe();
+            this.mCompositeSubscription=null;
         }
     }
 

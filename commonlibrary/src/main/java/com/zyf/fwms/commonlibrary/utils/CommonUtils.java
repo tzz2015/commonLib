@@ -213,6 +213,7 @@ public class CommonUtils {
     public void removeSubscription() {
         if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
             this.mCompositeSubscription.unsubscribe();
+            this.mCompositeSubscription=null;
         }
     }
     /**

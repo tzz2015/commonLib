@@ -290,6 +290,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         CommonUtils.getInstance().removeSubscription();
         if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
             this.mCompositeSubscription.unsubscribe();
+            this.mCompositeSubscription=null;
         }
     }
     @Override
