@@ -28,13 +28,13 @@ public class HttpPresenter<T>  implements HttpBuilder<T> {
     private static volatile HttpPresenter httpPresenter;
 
     public static HttpPresenter getInstance(){
-        if(httpPresenter==null){
+      /*  if(httpPresenter==null){
             synchronized (HttpPresenter.class){
-                if(httpPresenter==null){
-                    httpPresenter=new HttpPresenter();
+                if(httpPresenter==null){*/
+          /*          httpPresenter=new HttpPresenter();
                 }
             }
-        }
+        }*/
         return httpPresenter;
     }
 
