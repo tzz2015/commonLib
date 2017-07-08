@@ -66,7 +66,7 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
                 requestPermission(new String[]{Manifest.permission.CAMERA});
                 break;
             case R.id.tv_wb://隐藏标题
-                intent=new Intent(mContext,NoTitleActivity.class);
+                intent=new Intent(mContext,NotitleActivity.class);
                 break;
             case R.id.tv_photo://拍照
                 takePhoto();
