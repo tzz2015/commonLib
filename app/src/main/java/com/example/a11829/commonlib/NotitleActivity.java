@@ -9,7 +9,7 @@ import com.zyf.fwms.commonlibrary.utils.CommonUtils;
 import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
 import com.zyf.fwms.commonlibrary.utils.statusbar.StatusBarFontHelper;
 
-public class NoTitleActivity extends BaseActivity<BasePresenter,ActivityNotitleBinding>  {
+public class NotitleActivity extends BaseActivity<BasePresenter,ActivityNotitleBinding>  {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
