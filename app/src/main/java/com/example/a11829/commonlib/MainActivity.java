@@ -87,6 +87,9 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         if(!isMore){
            dataList.clear();
         }
+        BaseRecyclerModel model=new BaseRecyclerModel();
+        model.viewType=3;
+        dataList.add(model);
         for(int i=0;i<20;i++){
             TestModel testModel=new TestModel();
             if(i%2==0){
@@ -100,6 +103,7 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
 
             dataList.add(testModel);
         }
+
         mBindingView.xRecyclerView.refreshComplete();
         if(adapter!=null){
             adapter.clear();

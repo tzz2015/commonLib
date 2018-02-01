@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="70px"
+        android:id="@+id/ll_root"
+        android:layout_marginBottom="20px"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/notice"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="27px"
+            android:layout_marginRight="20px"
+            android:layout_width="32px"
+            android:layout_height="32px" />
+
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_show"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20px"
+    android:textSize="30px"
+    android:gravity="left"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:text="哈哈哈"
+    android:textColor="@color/public_red" />
+
+

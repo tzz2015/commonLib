@@ -23,6 +23,8 @@ public class TestAdapter extends BaseRecyclerViewAdapter {
                     return new TestHolder(parent, R.layout.layout_test_item);
                 case TEST2_ITEM://文字在右边
                     return new TestHolder2(parent, R.layout.layout_test_item2);
+                case 3:
+                    return  new MainHomeSysMsgHolder(parent,R.layout.item_sys_msg);
                 default://这里执行到default里面 一定会崩溃
                     return null;
             }
