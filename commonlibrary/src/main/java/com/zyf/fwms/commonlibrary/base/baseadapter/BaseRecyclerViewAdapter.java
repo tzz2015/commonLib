@@ -19,6 +19,7 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseR
 
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, final int position) {
+        holder.isLastItem(position==getItemCount()-1);
         holder.onBaseBindViewHolder(data.get(position), position);
         holder.itemView.setOnClickListener(new PerfectClickListener() {
             @Override

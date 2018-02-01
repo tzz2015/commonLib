@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.a11829.commonlib.R;
 import com.example.a11829.commonlib.http.HttpTask;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -91,6 +92,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         AutoUtils.setSize(this, false, 720, 1280);
         //自适应页面
         AutoUtils.auto(this);
+        Glide.get(getApplicationContext()).clearMemory();
         initView();
 
 
@@ -308,6 +310,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Glide.get(getApplicationContext()).clearMemory();
         hideInfoProgressDialog();
         removeSubscription();
         if (mPresenter != null) {

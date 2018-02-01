@@ -17,13 +17,13 @@ import android.widget.TextView;
 
 public class AutoUtils {
 
-	private static int displayWidth;
-	private static int displayHeight;
-	
-	private static int designWidth;
-	private static int designHeight;
-	
-	private static double textPixelsRate;
+	public static int displayWidth;
+	public static int displayHeight;
+
+	public static int designWidth;
+	public static int designHeight;
+
+	public static double textPixelsRate;
 	
 	public static void setSize(Activity act, boolean hasStatusBar, int designWidth, int designHeight){
 		if(act==null || designWidth<1 || designHeight<1)return;

@@ -18,8 +18,13 @@ public interface HttpBuilder<T> {
 
     HttpBuilder setObservable(Observable observable);
 
+    HttpBuilder setNotAddCommontSubscription();
+
     Subscription create();
 
     HttpBuilder  setCallBack(HttpTaskListener<T> listener);
+    HttpBuilder isShowDialog(boolean isShow);
+
+
 
 }

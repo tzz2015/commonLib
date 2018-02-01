@@ -1,7 +1,10 @@
 package com.zyf.fwms.commonlibrary.utils.statusbar.impl;
 
 import android.app.Activity;
+import android.os.Build;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.zyf.fwms.commonlibrary.utils.statusbar.IStatusBarFontHelper;
 
@@ -22,6 +25,15 @@ public class MIUIHelper implements IStatusBarFontHelper {
     @Override
     public boolean setStatusBarLightMode(Activity activity, boolean isFontColorDark) {
         Window window = activity.getWindow();
+        //MIUI 9
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
+        //旧的MIUI版本
         boolean result = false;
         if (window != null) {
             Class clazz = window.getClass();

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -32,7 +33,12 @@ public class XRecyclerView extends RecyclerView {
     private static final float DRAG_RATE = 1.75f;
     // 是否是额外添加FooterView
     private boolean isOther = false;
-    private boolean sIsScrolling;
+    private boolean sIsScrolling;//是否在滚动
+    //纵坐标滚动的距离
+    private int dy = 0;
+    private UpDownListener upDownListener;
+    private boolean isStopLoadImg=true;
+
 
     public XRecyclerView(Context context) {
         this(context, null);
@@ -144,6 +150,12 @@ public class XRecyclerView extends RecyclerView {
         mWrapAdapter = new WrapAdapter(mHeaderViews, mFootViews, adapter);
         super.setAdapter(mWrapAdapter);
         adapter.registerAdapterDataObserver(mDataObserver);
+
+        // 调用 notifyDataSetChanged 导致界面闪烁问题
+        RecyclerView.ItemAnimator animator = this.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+        }
     }
 
     @Override
@@ -187,10 +199,16 @@ public class XRecyclerView extends RecyclerView {
 
         if (state == RecyclerView.SCROLL_STATE_DRAGGING || state == RecyclerView.SCROLL_STATE_SETTLING) {//滚动中和惯性滑动
             sIsScrolling = true;
-            Glide.with(getContext()).pauseRequests();
+         if(isStopLoadImg)
+             Glide.with(getContext()).pauseRequests();
         } else if (state == RecyclerView.SCROLL_STATE_IDLE) {//停止滚动
             if (sIsScrolling == true) {
-                Glide.with(getContext()).resumeRequests();
+                try {//停止滚动 清空图片内存
+                    Glide.get(getContext()).clearMemory();
+                    Glide.with(getContext()).resumeRequests();
+                }catch (Exception e){
+
+                }
 
             }
             sIsScrolling = false;
@@ -206,6 +224,7 @@ public class XRecyclerView extends RecyclerView {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mLastY = ev.getRawY();
+                //当手指按下的时候
                 break;
             case MotionEvent.ACTION_MOVE:
                 final float deltaY = ev.getRawY() - mLastY;
@@ -218,6 +237,17 @@ public class XRecyclerView extends RecyclerView {
                 }
                 break;
             default:
+                //手指上抬
+                if (ev.getAction() == MotionEvent.ACTION_UP) {
+                    if (dy > 0) {
+                        // Log.e("XXXX:", "向上滑");
+                        if (upDownListener != null) upDownListener.onUpScorll();
+                    } else {
+                        // Log.e("XXXX:", "向下滑");
+                        if (upDownListener != null) upDownListener.onDownScorll();
+                    }
+                }
+
                 mLastY = -1; // reset
                 if (isOnTop() && pullRefreshEnabled) {
                     if (mRefreshHeader.releaseAction()) {
@@ -345,16 +375,33 @@ public class XRecyclerView extends RecyclerView {
         void onLoadMore();
     }
 
+    /**
+     * 上下滑动监听
+     */
+    public interface UpDownListener {
+
+        void onUpScorll();
+
+        void onDownScorll();
+    }
+
+    /**
+     * 设置上下滑动监听
+     */
+    public void setUpDownListener(UpDownListener listener) {
+        this.upDownListener = listener;
+    }
 
     /**
      * 重新设置列数
      */
-    public void setSpanCount(int num){
+    public void setSpanCount(int num) {
         RecyclerView.LayoutManager manager = this.getLayoutManager();
         if (manager instanceof GridLayoutManager) {
             ((GridLayoutManager) manager).setSpanCount(num);
         }
     }
+
     public void reset() {
         isnomore = false;
         previousTotal = 0;
@@ -362,5 +409,19 @@ public class XRecyclerView extends RecyclerView {
         if (footView instanceof LoadingMoreFooter) {
             ((LoadingMoreFooter) footView).reSet();
         }
+    }
+
+
+    @Override
+    public void onScrolled(int dx, int dy) {
+        super.onScrolled(dx, dy);
+        this.dy = dy;
+
+    }
+    /**
+     * 是否滚动中禁止加载
+     */
+    public void setStopLoadImg(boolean b){
+        isStopLoadImg=b;
     }
 }

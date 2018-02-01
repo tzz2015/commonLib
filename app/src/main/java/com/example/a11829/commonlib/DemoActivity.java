@@ -13,6 +13,7 @@ import com.jph.takephoto.model.TImage;
 import com.zyf.fwms.commonlibrary.model.RxCodeConstants;
 import com.zyf.fwms.commonlibrary.model.UserInfoModel;
 import com.zyf.fwms.commonlibrary.photo.PhotoModel;
+import com.zyf.fwms.commonlibrary.pickerview.PickCityUtil;
 import com.zyf.fwms.commonlibrary.utils.LogUtil;
 import com.zyf.fwms.commonlibrary.utils.RxBus;
 
@@ -37,11 +38,13 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
         mBindingView.tvRxPermission.setOnClickListener(this);
         mBindingView.tvWb.setOnClickListener(this);
         mBindingView.tvPhoto.setOnClickListener(this);
+        mBindingView.tvX5.setOnClickListener(this);
+        mBindingView.tvAddress.setOnClickListener(this);
     }
 
     @Override
     protected void initView() {
-
+        PickCityUtil.initData(mContext);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
                 RxBus.getDefault().post(RxCodeConstants.SHOW_TOAST,"发送消息可在任何地方");
                 break;
             case R.id.tv_rx_permission://y异步获取权限
-                requestPermission(new String[]{Manifest.permission.CAMERA});
+                requestPermission(new String[]{Manifest.permission.CAMERA,Manifest.permission.ACCESS_NETWORK_STATE});
                 break;
             case R.id.tv_wb://隐藏标题
                 intent=new Intent(mContext,NotitleActivity.class);
@@ -71,10 +74,25 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
             case R.id.tv_photo://拍照
                 takePhoto();
                 break;
+            case R.id.tv_x5://x5浏览器
+                intent=new Intent(mContext,TencentX5Activity.class);
+                break;
+            case R.id.tv_address://全国地址
+                showAddress();
+                break;
         }
         if(intent!=null){
             startActivity(intent);
         }
+    }
+
+    private void showAddress() {
+        PickCityUtil.showCityPickView(mContext, new PickCityUtil.ChooseCityListener() {
+            @Override
+            public void chooseCity(String s) {
+                showToast(s);
+            }
+        });
     }
 
     private void takePhoto() {

@@ -29,6 +29,9 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         setTitle("RecyclerView示例");
         initData(false);
         initRecyclerView();
+
+
+
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.annotation.IntDef;
 
 import com.zyf.fwms.commonlibrary.utils.statusbar.impl.AndroidMHelper;
+import com.zyf.fwms.commonlibrary.utils.statusbar.impl.ColorOSHelper;
 import com.zyf.fwms.commonlibrary.utils.statusbar.impl.FlymeHelper;
 import com.zyf.fwms.commonlibrary.utils.statusbar.impl.MIUIHelper;
 
@@ -29,14 +30,15 @@ public class StatusBarFontHelper {
     public static final int OTHER = -1;
     public static final int MIUI = 1;
     public static final int FLYME = 2;
-    public static final int ANDROID_M = 3;
+    public static final int ColorOS = 3;
+    public static final int ANDROID_M = 4;
 
 
     /**
      * 设置状态栏黑色字体图标，
      * 适配4.4以上版本MIUIV、Flyme和6.0以上版本其他Android
      *
-     * @return 1:MIUI 2:Flyme 3:android6.0
+     * @return 1:MIUI 2:Flyme 3:ColorOS 4:android6.0
      */
     public static int setStatusBarMode(Activity activity, boolean isFontColorDark) {
         @SystemType int result = 0;
@@ -45,7 +47,9 @@ public class StatusBarFontHelper {
                 result = MIUI;
             } else if (new FlymeHelper().setStatusBarLightMode(activity, isFontColorDark)) {
                 result = FLYME;
-            } else if (new AndroidMHelper().setStatusBarLightMode(activity, isFontColorDark)) {
+            }else if (new ColorOSHelper().setStatusBarLightMode(activity, isFontColorDark)) {
+                result = ColorOS;
+            }  else if (new AndroidMHelper().setStatusBarLightMode(activity, isFontColorDark)) {
                 result = ANDROID_M;
             }
         }

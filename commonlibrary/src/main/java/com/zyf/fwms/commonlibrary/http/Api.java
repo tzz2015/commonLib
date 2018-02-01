@@ -8,10 +8,10 @@ package com.zyf.fwms.commonlibrary.http;
 
 public class Api {
 
-    public static String HOST_URL="http://www.ikuaibaike.com/interface/api/";
+    public static String HOST_URL="https://api.imeihao.shop/";
     /**
      * 登录
      **/
-    public static final String LOGINSMS = "user/loginsms";
+    public static final String LOGINSMS = "user/phone/login";
 
 }

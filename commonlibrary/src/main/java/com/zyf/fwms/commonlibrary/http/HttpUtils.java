@@ -4,12 +4,19 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.zyf.fwms.commonlibrary.model.UserInfoModel;
+import com.zyf.fwms.commonlibrary.utils.CommonUtils;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -59,7 +66,7 @@ public class HttpUtils {
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .addInterceptor(new LoggingInterceptor())//日志
 //            .addInterceptor(new NotEdcodeLoggingInterceptor())//不加密
-             //   .addNetworkInterceptor(new RequestHeaderInterceptor())//请求头
+               .addNetworkInterceptor(new RequestHeaderInterceptor())//请求头
                 .build();
         return client;
     }
@@ -123,4 +130,28 @@ public class HttpUtils {
         customHttpMaps.clear();
         gson=null;
     }
+
+    public class RequestHeaderInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Interceptor.Chain chain) throws IOException {
+            Request original = chain.request();
+            //添加请求参数，
+            HttpUrl url = null;
+
+                url = original.url().newBuilder()
+                        .addQueryParameter("platform", "AndroidApp")
+                        .build();
+
+            Request newRequest = null;
+
+                newRequest = chain.request().newBuilder()
+                        .addHeader("platform", "AndroidApp")
+                        .url(url)
+                        .build();
+
+
+            return chain.proceed(newRequest);
+        }
+    }
+
 }

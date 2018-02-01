@@ -3,6 +3,7 @@
     package="com.example.a11829.commonlib">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -19,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".NoTitleActivity"></activity>
+        <activity android:name=".NotitleActivity" />
+        <activity android:name=".TencentX5Activity"></activity>
     </application>
 
 </manifest>

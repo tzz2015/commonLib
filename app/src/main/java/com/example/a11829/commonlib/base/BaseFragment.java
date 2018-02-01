@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.a11829.commonlib.R;
 import com.example.a11829.commonlib.http.HttpTask;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -69,6 +70,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePre
         mContainer = mBaseBinding.container;
         mContainer.addView(mBindingView.getRoot());
         mContext = getContext();
+        Glide.get(getContext()).clearMemory();
         initLisener();
         initView();
         loadData();
@@ -207,5 +209,6 @@ public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePre
         hideInfoProgressDialog();
         removeSubscription();
         ButterKnife.unbind(this);
+        Glide.get(getContext()).clearMemory();
     }
 }

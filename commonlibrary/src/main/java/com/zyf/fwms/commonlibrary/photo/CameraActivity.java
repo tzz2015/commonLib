@@ -129,7 +129,6 @@ public class CameraActivity extends TakePhotoActivity {
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
         finish();
-        CommonUtils.showToast(this, msg);
 
     }
 

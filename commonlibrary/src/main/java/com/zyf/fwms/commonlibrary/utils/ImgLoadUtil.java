@@ -2,11 +2,18 @@ package com.zyf.fwms.commonlibrary.utils;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.zyf.fwms.commonlibrary.R;
 
 import java.io.File;
@@ -176,6 +183,191 @@ public class ImgLoadUtil {
                 .centerCrop().transform(new GlideCircleTransform(context)).into(imageView);
     }
 
+    /**
+     * 自适应宽度加载图片。保持图片的长宽比例不变，通过修改imageView的高度来完全显示图片。
+     */
+    public static void loadIntoUseFitWidth(Context context, final ImageView imageView, final String imageUrl) {
+        Glide.with(context)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
 
 
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        if (imageView == null) {
+                            return false;
+                        }
+                        if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
+                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        }
+                        ViewGroup.LayoutParams params = imageView.getLayoutParams();
+                        //int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+                        int vw = AutoUtils.designWidth;
+                        float scale = (float) vw / (float) resource.getIntrinsicWidth();
+                        int vh = Math.round(resource.getIntrinsicHeight() * scale);
+                        params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
+                        imageView.setLayoutParams(params);
+                        AutoUtils.auto(imageView);
+                        return false;
+                    }
+                })
+                .placeholder(R.mipmap.img_one_bi_one)
+                .error(R.mipmap.img_one_bi_one)
+                .into(imageView);
+    }
+
+    /**
+     * 自适应宽度加载图片。保持图片的长宽比例不变，通过修改imageView的高度来完全显示图片。
+     */
+    public static void loadIntoUseFitWidth(Context context, final ImageView imageView, final int width, final String imageUrl) {
+        Glide.with(context)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        LogUtil.getInstance().e(e.getMessage());
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        if (imageView == null) {
+                            return false;
+                        }
+                        if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
+                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        }
+                        ViewGroup.LayoutParams params = imageView.getLayoutParams();
+                        //int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+                        int vw = width;
+                        float scale = (float) vw / (float) resource.getIntrinsicWidth();
+                        int vh = Math.round(resource.getIntrinsicHeight() * scale);
+                        params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
+                        imageView.setLayoutParams(params);
+                        AutoUtils.auto(imageView);
+                        // display(imageView.getContext(), imageView, imageUrl);
+                        LogUtil.getInstance().e("loadIntoUseFitWidth----width:" + vw + "---height:" + vh);
+
+                        return false;
+                    }
+                })
+                .placeholder(R.mipmap.img_one_bi_one)
+                .error(R.mipmap.img_one_bi_one)
+                .into(imageView);
+    }
+
+    /**
+     * 高度自适应2
+     *
+     * @param context
+     * @param imageView
+     * @param userWidth
+     * @param imageUrl
+     */
+    public static void loadIntoUseFitWidth2(final Context context, final ImageView imageView, final int userWidth, final String imageUrl) {
+        imageView.setImageResource(R.mipmap.img_one_bi_one);
+        if (CommonUtils.isNotEmpty(imageUrl)) {//字符串切割获取长宽
+            setEHByUrl(imageUrl, imageView, userWidth);
+        } else return;
+        imageView.setTag(imageUrl);
+
+
+
+        //获取图片真正的宽高
+        Glide.with(context)
+                .load(imageUrl)
+                .asBitmap()//强制Glide返回一个Bitmap对象
+                .format(DecodeFormat.PREFER_ARGB_8888)
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                        if (imageView.getTag().toString().equals(imageUrl)) {
+                            int width = bitmap.getWidth();
+                            int height = bitmap.getHeight();
+                            if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
+                                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                            }
+                            ViewGroup.LayoutParams params = imageView.getLayoutParams();
+                            //int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+                            float scale = (float) userWidth / (float) width;
+                            int vh = Math.round(height * scale);
+                            params.width = userWidth;
+                            params.height = vh;
+                            imageView.setLayoutParams(params);
+                            AutoUtils.auto(imageView);
+                            imageView.setImageBitmap(bitmap);
+                        }
+                    }
+                });
+
+
+
+
+    }
+
+    /**
+     * 根据url  设置图片的宽高
+     */
+    public static void setEHByUrl(String imageUrl, ImageView imageView, int userWidth) {
+        if (imageView == null) return;
+        imageView.setImageResource(R.mipmap.img_one_bi_one);
+        if (CommonUtils.isNotEmpty(imageUrl)) {//字符串切割获取长宽
+            String[] wh = getWh(imageUrl);
+            if (wh != null) {
+                setWHByW(imageView, userWidth, wh);
+            }
+        }
+    }
+
+
+    /**
+     * 根据url获取宽高
+     */
+    public static String[] getWh(String imageUrl) {
+        if (CommonUtils.isNotEmpty(imageUrl)) {//字符串切割获取长宽
+            int one = imageUrl.indexOf("_");
+            int two = imageUrl.lastIndexOf("_");
+            int three = imageUrl.lastIndexOf(".");
+            if (one != 0 && one != two && two != 0 && three != 0 && two != three) {
+                String width = imageUrl.substring(one + 1, two);
+                String height = imageUrl.substring(two + 1, three);
+                if (CommonUtils.isNumeric(width) && CommonUtils.isNumeric(height)) {//判断是否都属于数字
+                    String[] wh = new String[]{width, height};
+                    return wh;
+                } else return null;
+            } else return null;
+        } else return null;
+
+    }
+
+
+    /**
+     * 根据设定宽度 等比例设置图片的宽高
+     */
+    public static void setWHByW(ImageView imageView, int userWidth, String[] wh, int... defh) {
+        if (wh == null && defh == null) return;
+        ViewGroup.LayoutParams params = imageView.getLayoutParams();
+        if (wh == null) {
+            params.width = userWidth;
+            params.height = defh[0];
+        } else {
+            float scale = (float) userWidth / Float.valueOf(wh[0]);
+            int vh = Math.round(Float.valueOf(wh[1]) * scale);
+            params.width = userWidth;
+            params.height = vh;
+        }
+
+
+        imageView.setLayoutParams(params);
+        AutoUtils.autoSize(imageView);
+    }
 }

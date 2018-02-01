@@ -39,4 +39,8 @@ public abstract class BaseRecyclerViewHolder< D extends ViewDataBinding> extends
         onBindViewHolder(object, position);
         binding.executePendingBindings();
     }
+    public void isLastItem(boolean isLast){
+
+    }
+
 }

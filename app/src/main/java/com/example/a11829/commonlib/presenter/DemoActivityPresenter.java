@@ -3,6 +3,7 @@ package com.example.a11829.commonlib.presenter;
 import com.example.a11829.commonlib.contact.DemoActivityContact;
 import com.example.a11829.commonlib.http.HttpPresenter;
 import com.example.a11829.commonlib.http.HttpTaskListener;
+import com.example.a11829.commonlib.model.AccountInputModel;
 import com.zyf.fwms.commonlibrary.model.UserInfoModel;
 
 import java.util.HashMap;
@@ -16,17 +17,11 @@ import java.util.Map;
 public class DemoActivityPresenter extends DemoActivityContact.Presenter implements HttpTaskListener {
     @Override
     public void getData() {
-        Map<String,Object> map=new HashMap<>();
-        map.put("phone","15506200515");
-        map.put("code","4986");
-        map.put("userType","2");
-        map.put("alias", "ffffffff_c7a8_3c15_0000_00004ca6b30b");
-        map.put("source","APP");
-        map.put("userId","280");
+
         HttpPresenter.getInstance()
                 .setRequsetId(10)   //请求id 非必须
-                .setContext(mContext)  //上下文 非必须  没有不显示进度框
-                .setObservable(httpTask.requestLogin(map))  //必须
+                .setContext(mContext)//
+                .setObservable(httpTask.requestLogin(new AccountInputModel("17605887136","123456")))  //必须
                 .setCallBack(this)  //回调 非必须
                 .create();
     }

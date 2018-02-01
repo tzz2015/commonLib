@@ -12,7 +12,7 @@ public class BaseRespose<T> implements Serializable {
 
 
 
-    public String code;
+    public int code;
     public T data;
     public String msg;
     public boolean success;

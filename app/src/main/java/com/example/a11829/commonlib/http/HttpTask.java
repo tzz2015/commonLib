@@ -1,12 +1,16 @@
 package com.example.a11829.commonlib.http;
 
+import com.example.a11829.commonlib.model.AccountInputModel;
 import com.zyf.fwms.commonlibrary.http.Api;
 import com.zyf.fwms.commonlibrary.http.BaseRespose;
+import com.zyf.fwms.commonlibrary.model.AccountInfo;
 import com.zyf.fwms.commonlibrary.model.UserInfoModel;
 
 import java.util.Map;
 
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -20,6 +24,6 @@ public interface HttpTask {
     /**
      * 登录
      **/
-    @GET(Api.LOGINSMS)
-    Observable<BaseRespose<UserInfoModel>> requestLogin(@QueryMap Map<String, Object> pram);
+    @POST(Api.LOGINSMS)
+    Observable<BaseRespose<UserInfoModel>> requestLogin(@Body AccountInputModel pram);
 }

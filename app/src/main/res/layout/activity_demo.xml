@@ -8,101 +8,125 @@
             name="userInfo"
             type="com.zyf.fwms.commonlibrary.model.UserInfoModel" />
     </data>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_bright"
-            android:gravity="center"
-            android:padding="20px"
-            android:text="RecyclerView"
-            android:textColor="@color/colorWhite"
-            android:textSize="30px" />
-
-        <TextView
-            android:id="@+id/tv_request"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:gravity="center"
-            android:padding="20px"
-            android:text="网络请求"
-            android:textColor="@android:color/black"
-            android:textSize="30px" />
-
-
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_bright"
+                android:gravity="center"
                 android:padding="20px"
-                android:text="@{`网络请求返回:`+(userInfo.phone ??``)}"
+                android:text="RecyclerView"
+                android:textColor="@color/colorWhite"
+                android:textSize="30px" />
+
+            <TextView
+                android:id="@+id/tv_request"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="网络请求"
+                android:textColor="@android:color/black"
+                android:textSize="30px" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20px"
+                    android:text="@{`网络请求返回:`+(userInfo.token ??``)}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="30px" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_rx_bus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_orange_light"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="RxBus"
+                android:textColor="@color/colorWhite"
+                android:textSize="30px" />
+
+            <TextView
+                android:id="@+id/tv_rx_permission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_dark"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="RxPermission"
+                android:textColor="@color/colorWhite"
+                android:textSize="30px" />
+            <TextView
+                android:id="@+id/tv_wb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_green_dark"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="状态栏设置黑色"
+                android:textColor="@color/colorWhite"
+                android:textSize="30px" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="图片工具参考ImgLoadUtil"
+                android:textColor="@color/colorWhite"
+                android:textSize="30px" />
+            <TextView
+                android:id="@+id/tv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_orange_dark"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="拍照和从相册选择"
+                android:textColor="@color/colorWhite"
+                android:textSize="30px" />
+            <TextView
+                android:id="@+id/tv_x5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="腾讯x5浏览器"
+                android:textColor="@color/colorWhite"
+                android:textSize="30px" />
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_light"
+                android:gravity="center"
+                android:padding="20px"
+                android:text="全国地址"
                 android:textColor="@color/colorWhite"
                 android:textSize="30px" />
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/tv_rx_bus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_orange_light"
-            android:gravity="center"
-            android:padding="20px"
-            android:text="RxBus"
-            android:textColor="@color/colorWhite"
-            android:textSize="30px" />
-
-        <TextView
-            android:id="@+id/tv_rx_permission"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_red_dark"
-            android:gravity="center"
-            android:padding="20px"
-            android:text="RxPermission"
-            android:textColor="@color/colorWhite"
-            android:textSize="30px" />
-        <TextView
-            android:id="@+id/tv_wb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_dark"
-            android:gravity="center"
-            android:padding="20px"
-            android:text="状态栏设置黑色"
-            android:textColor="@color/colorWhite"
-            android:textSize="30px" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark"
-            android:gravity="center"
-            android:padding="20px"
-            android:text="图片工具参考ImgLoadUtil"
-            android:textColor="@color/colorWhite"
-            android:textSize="30px" />
-        <TextView
-            android:id="@+id/tv_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_orange_dark"
-            android:gravity="center"
-            android:padding="20px"
-            android:text="拍照和从相册选择"
-            android:textColor="@color/colorWhite"
-            android:textSize="30px" />
-    </LinearLayout>
 
 
 </layout>
