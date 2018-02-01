@@ -51,7 +51,8 @@
 # 指定混淆是采用的算法，后面的参数是一个过滤器
 # 这个过滤器是谷歌推荐的算法，一般不做更改
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
-
+#代码文件都移动到根包目录下，即在 / 包之下
+-repackageclasses com.hangzhou.h890.meihao
 
 #############################################
 #
@@ -148,13 +149,13 @@
 # 移除Log类打印各个等级日志的代码，打正式包的时候可以做为禁log使用，这里可以作为禁止log打印的功能使用
 # 记得proguard-android.txt中一定不要加-dontoptimize才起作用
 # 另外的一种实现方案是通过BuildConfig.DEBUG的变量来控制
-#-assumenosideeffects class android.util.Log {
-#    public static int v(...);
-#    public static int i(...);
-#    public static int w(...);
-#    public static int d(...);
-#    public static int e(...);
-#}
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int i(...);
+    public static int w(...);
+    public static int d(...);
+    public static int e(...);
+}
 
 #############################################
 #
@@ -177,6 +178,174 @@
 #    public *** get*();
 #    public *** is*();
 #}
+-keep public class com.hangzhou.h890.meihao.account.model.**{*;}
+-keep public class com.zyf.fwms.commonlibrary.**{*;}
+-keep public class com.github.lzyzsd.jsbridge.**{*;}
+-keep public class com.hangzhou.h890.meihao.home.model.**{*;}
+-keep public class com.hangzhou.h890.meihao.base.**{*;}
+-keep public class com.hangzhou.h890.meihao.home_inner.model.**{*;}
+-keep public class com.hangzhou.h890.meihao.yet_buy.model.**{*;}
+-keep public class com.hangzhou.h890.meihao.mine.model.**{*;}
+-keep public class com.hangzhou.h890.meihao.today.model.**{*;}
+-keep public class com.hangzhou.h890.meihao.product_class.model.**{*;}
+
+
+
+
 
 
 #-----------处理第三方依赖库---------
+#-------butterknife-----------
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+#-------retrofit2----------
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+# OkHttp3
+-dontwarn okhttp3.logging.**
+-keep class okhttp3.internal.**{*;}
+-dontwarn okio.**
+# Retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+
+# RxJava RxAndroid
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+
+# Gson
+-keep class com.google.gson.stream.** { *; }
+-keepattributes EnclosingMethod
+
+#----kprogresshud----
+#-----takephoto-----
+-keep class com.jph.takephoto.** { *; }
+-dontwarn com.jph.takephoto.**
+
+-keep class com.darsh.multipleimageselect.** { *; }
+-dontwarn com.darsh.multipleimageselect.**
+
+-keep class com.soundcloud.android.crop.** { *; }
+-dontwarn com.soundcloud.android.crop.**
+
+#-------glide------
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+#-------databinding------
+-dontwarn android.databinding.**
+-keep class android.databinding.** { *; }
+#--------sentry------------
+-keepattributes LineNumberTable,SourceFile
+-dontwarn org.slf4j.**
+-dontwarn javax.**
+#----------阿里云直播-----------
+-keep public class com.alivc.player.**{*;}
+#-----------微信支付--------------
+-dontwarn com.tencent.mm.**
+-dontwarn com.tencent.wxop.stat.**
+-keep class com.tencent.mm.** {*;}
+-keep class com.tencent.wxop.stat.**{*;}
+#-----------x5--------------
+-dontwarn com.tencent.smtt.**
+-keep class com.tencent.smtt.** {*;}
+-dontwarn com.tencent.tbs.**
+-keep class com.tencent.tbs.** {*;}
+
+#-----------支付宝支付-----
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}
+-keep class com.alipay.sdk.app.H5PayCallback {
+    <fields>;
+    <methods>;
+}
+-keep class com.alipay.android.phone.mrpc.core.** { *; }
+-keep class com.alipay.apmobilesecuritysdk.** { *; }
+-keep class com.alipay.mobile.framework.service.annotation.** { *; }
+-keep class com.alipay.mobilesecuritysdk.face.** { *; }
+-keep class com.alipay.tscenter.biz.rpc.** { *; }
+-keep class org.json.alipay.** { *; }
+-keep class com.alipay.tscenter.** { *; }
+-keep class com.ta.utdid2.** { *;}
+-keep class com.ut.device.** { *;}
+
+
+#------忽略警告--------
+-ignorewarnings
+
+#--------阿里路由-------
+-keep public class com.alibaba.android.arouter.routes.**{*;}
+-keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
+
+#--------神策---------
+-dontwarn com.sensorsdata.analytics.android.**
+-keep class com.sensorsdata.analytics.android.** {
+*;
+}
+-keep class **.R$* {
+    <fields>;
+}
+-keep public class * extends android.content.ContentProvider
+-keepnames class * extends android.view.View
+
+-keep class * extends android.app.Fragment {
+ public void setUserVisibleHint(boolean);
+ public void onHiddenChanged(boolean);
+ public void onResume();
+ public void onPause();
+}
+-keep class android.support.v4.app.Fragment {
+ public void setUserVisibleHint(boolean);
+ public void onHiddenChanged(boolean);
+ public void onResume();
+ public void onPause();
+}
+-keep class * extends android.support.v4.app.Fragment {
+ public void setUserVisibleHint(boolean);
+ public void onHiddenChanged(boolean);
+ public void onResume();
+ public void onPause();
+}
+#-------------小熊在线客服-------------
+-dontwarn cn.xiaoneng.**
+-dontwarn android.support.v4xn.**
+-dontwarn orgxn.fusesource.**
+-keep class cn.xiaoneng.** {*;}
+-keep class android.support.v4xn.** {*;}
+-keep class orgxn.fusesource.** {*;}
+
+
+# --------------阿里热修复--------------
+#基线包使用，生成mapping.txt
+-printmapping mapping.txt
+#生成的mapping.txt在app/buidl/outputs/mapping/release路径下，移动到/app路径下
+#修复后的项目使用，保证混淆结果一致
+-applymapping mapping.txt
+#hotfix
+-keep class com.taobao.sophix.**{*;}
+-keep class com.ta.utdid2.device.**{*;}
