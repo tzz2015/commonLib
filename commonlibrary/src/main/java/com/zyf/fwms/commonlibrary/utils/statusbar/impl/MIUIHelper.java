@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.zyf.fwms.commonlibrary.utils.VirtualKeyUtils;
 import com.zyf.fwms.commonlibrary.utils.statusbar.IStatusBarFontHelper;
 
 import java.lang.reflect.Field;
@@ -30,7 +31,11 @@ public class MIUIHelper implements IStatusBarFontHelper {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                int flag = VirtualKeyUtils.getInstance().checkVirualkey(activity);
+                if (flag > 0)
+                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | flag);
+                else
+                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         }
         //旧的MIUI版本

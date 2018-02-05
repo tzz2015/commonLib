@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.a11829.commonlib.base.BaseActivity;
 import com.example.a11829.commonlib.base.BasePresenter;
@@ -13,6 +14,7 @@ import com.example.xrecyclerview.XRecyclerView;
 import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRecyclerModel;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemClickListener;
 import com.zyf.fwms.commonlibrary.base.baseadapter.OnItemLongClickListener;
+import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,12 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         if(!isMore){
            dataList.clear();
         }
+       //添加头布局
+        View view1= LinearLayout.inflate(mContext,R.layout.layout_head_view,null);
+        AutoUtils.auto(view1);
+        mBindingView.xRecyclerView.addHeaderView(view1);
+
+/*
         BaseRecyclerModel model=new BaseRecyclerModel();
         model.viewType=3;
         dataList.add(model);
@@ -102,7 +110,7 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
 
 
             dataList.add(testModel);
-        }
+        }*/
 
         mBindingView.xRecyclerView.refreshComplete();
         if(adapter!=null){

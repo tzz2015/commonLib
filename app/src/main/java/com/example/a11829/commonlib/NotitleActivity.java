@@ -9,6 +9,7 @@ import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
 import com.zyf.fwms.commonlibrary.utils.ImgLoadUtil;
 import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
+import com.zyf.fwms.commonlibrary.utils.VirtualKeyUtils;
 import com.zyf.fwms.commonlibrary.utils.statusbar.StatusBarFontHelper;
 
 public class NotitleActivity extends BaseActivity<BasePresenter,ActivityNotitleBinding>  {
@@ -20,6 +21,7 @@ public class NotitleActivity extends BaseActivity<BasePresenter,ActivityNotitleB
         StatusBarUtil.setColor(this, CommonUtils.getColor(this, com.zyf.fwms.commonlibrary.R.color.colorWhite),0);
         //设置标题栏字体为黑色
         StatusBarFontHelper.setStatusBarMode(this, true);
+
         hideTitleBar();
     }
 

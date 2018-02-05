@@ -1,0 +1,41 @@
+<resources>
+    <style name="transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+   <!--修改分类tablayout的字体样式-->
+    <style name="CustomTabLayoutTextAppearance" parent="Base.TextAppearance.AppCompat.Title.Inverse">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color333333</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="ThemeSwipeBack" parent="Theme.Swipe.Back">
+        <item name="colorPrimary">#db4336</item>
+        <item name="colorPrimaryDark">#b63120</item>
+    </style>
+
+    <style name="Theme.Swipe.Back" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Swipe.Back.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <declare-styleable name="SwipeBackLayout">
+        <attr name="swipeBackFactor" format="float"/>
+        <attr name="maskAlpha" format="integer"/>
+        <attr name="isSwipeFromEdge" format="boolean"/>
+        <attr name="directionMode">
+            <enum name="left" value="1" />
+            <enum name="right" value="2" />
+            <enum name="top" value="4" />
+            <enum name="bottom" value="8" />
+        </attr>
+    </declare-styleable>
+</resources>

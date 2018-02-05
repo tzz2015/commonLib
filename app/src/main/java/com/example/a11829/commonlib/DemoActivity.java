@@ -40,6 +40,7 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
         mBindingView.tvPhoto.setOnClickListener(this);
         mBindingView.tvX5.setOnClickListener(this);
         mBindingView.tvAddress.setOnClickListener(this);
+       getSwipeBackLayout().setCanSwipeBack(false);
     }
 
     @Override
@@ -146,6 +147,8 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
 
 
     }
+
+
 
 
 }

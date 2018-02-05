@@ -11,17 +11,20 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".DemoActivity">
+        android:theme="@style/Theme.Swipe.Back.NoActionBar">
+        <activity
+            android:name=".DemoActivity"
+            android:theme="@style/Theme.Swipe.Back.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            />
         <activity android:name=".NotitleActivity" />
-        <activity android:name=".TencentX5Activity"></activity>
+        <activity android:name=".TencentX5Activity" />
     </application>
 
 </manifest>

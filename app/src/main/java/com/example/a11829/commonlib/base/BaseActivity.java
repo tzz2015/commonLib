@@ -23,6 +23,7 @@ import com.zyf.fwms.commonlibrary.http.HttpUtils;
 import com.zyf.fwms.commonlibrary.model.AccountInfo;
 import com.zyf.fwms.commonlibrary.model.RxCodeConstants;
 import com.zyf.fwms.commonlibrary.model.UserInfoModel;
+import com.zyf.fwms.commonlibrary.swipeback.SwipeBackLayout;
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
 import com.zyf.fwms.commonlibrary.utils.LogUtil;
@@ -30,6 +31,7 @@ import com.zyf.fwms.commonlibrary.utils.RxBus;
 import com.zyf.fwms.commonlibrary.utils.SharedPreUtil;
 import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
 import com.zyf.fwms.commonlibrary.utils.TUtil;
+import com.zyf.fwms.commonlibrary.utils.VirtualKeyUtils;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -41,7 +43,7 @@ import rx.subscriptions.CompositeSubscription;
  * 刘宇飞创建 on 2017/5/18.
  * 描述：
  */
-public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBinding> extends FragmentActivity {
+public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBinding> extends FragmentActivity  {
     //布局view
     protected SV mBindingView;
     private CompositeSubscription mCompositeSubscription;
@@ -50,6 +52,10 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     public E mPresenter;
     private RxPermissions rxPermissions;
     private ActivityBaseBinding mBaseBinding;
+
+
+
+    private SwipeBackLayout swipeBackLayout;
 
     protected <T extends View> T getView(int id) {
         return (T) findViewById(id);
@@ -71,6 +77,8 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         LogUtil.getInstance().e(getClass().toString());
 
     }
+
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
@@ -82,7 +90,9 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         mBindingView.getRoot().setLayoutParams(params);
         RelativeLayout mContainer = mBaseBinding.container;
         mContainer.addView(mBindingView.getRoot());
-        getWindow().setContentView(mBaseBinding.getRoot());
+        swipeBackLayout = new SwipeBackLayout(this);
+        swipeBackLayout.addView(mBaseBinding.getRoot());
+        getWindow().setContentView(swipeBackLayout);
         ButterKnife.bind(this);
         // 设置透明状态栏
         StatusBarUtil.setColor(this, CommonUtils.getColor(this, com.zyf.fwms.commonlibrary.R.color.colorTitle),0);
@@ -160,6 +170,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
             mBaseBinding.commonTitle.llRightImg.setOnClickListener(listener);
         }
     }
+
 
 
 
@@ -317,5 +328,11 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
             mPresenter.onDestroy();
         }
         ButterKnife.unbind(this);
+    }
+
+
+
+    public SwipeBackLayout getSwipeBackLayout() {
+        return swipeBackLayout;
     }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.zyf.fwms.commonlibrary.utils.VirtualKeyUtils;
 import com.zyf.fwms.commonlibrary.utils.statusbar.IStatusBarFontHelper;
 import com.zyf.fwms.commonlibrary.utils.statusbar.Rom;
 
@@ -57,8 +58,10 @@ public class ColorOSHelper implements IStatusBarFontHelper {
                     }
 
                 }
-
-                window.getDecorView().setSystemUiVisibility(vis);
+                int flag = VirtualKeyUtils.getInstance().checkVirualkey(activity);
+                if(flag>0)
+                window.getDecorView().setSystemUiVisibility(vis|flag);
+                else  window.getDecorView().setSystemUiVisibility(vis);
                 result = true;
             } catch (Exception e) {
                 e.printStackTrace();

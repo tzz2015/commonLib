@@ -21,6 +21,7 @@ public class MyApplication extends Application {
         super.onCreate();
        context=this;
        initX5();
+       CrashHandler.getInstance().init(context);
     }
     public static Context getContext(){
         return context;

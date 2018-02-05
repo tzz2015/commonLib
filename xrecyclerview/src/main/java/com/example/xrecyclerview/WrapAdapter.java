@@ -3,6 +3,7 @@ package com.example.xrecyclerview;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class WrapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      * @return
      */
     public int getHeadersCount() {
+        Log.e("投布局长度：",mHeaderViews.size()+"");
         return mHeaderViews.size();
     }
 
@@ -97,6 +99,7 @@ public class WrapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      * @return
      */
     public int getFootersCount() {
+        Log.e("脚布局长度：",mFootViews.size()+"");
         return mFootViews.size();
     }
 
@@ -105,7 +108,8 @@ public class WrapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == TYPE_REFRESH_HEADER) {  //刷新头布局
             return new SimpleViewHolder(mHeaderViews.get(0));
         } else if (viewType == TYPE_HEADER) {  //自定义头布局
-            return new SimpleViewHolder(mHeaderViews.get(headerPosition++));
+            View view = mHeaderViews.get(headerPosition++);
+           return new SimpleViewHolder(view);
         } else if (viewType == TYPE_FOOTER) {  //底布局
             return new SimpleViewHolder(mFootViews.get(0));
         }
@@ -130,11 +134,14 @@ public class WrapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        int size=0;
         if (adapter != null) {
-            return getHeadersCount() + getFootersCount() + adapter.getItemCount();
+            size= getHeadersCount() + getFootersCount() + adapter.getItemCount();
         } else {
-            return getHeadersCount() + getFootersCount();
+            size= getHeadersCount() + getFootersCount();
         }
+        Log.e("总长度：",size+"");
+        return size;
     }
 
     @Override

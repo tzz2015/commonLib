@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textColor="@color/colorWhite"
+        android:background="@color/public_red"
+        android:gravity="center"
+        android:text="我是头布局"
+        android:textSize="30px"
+        android:layout_width="match_parent"
+        android:layout_height="100px" />
+
+</LinearLayout>
