@@ -22,10 +22,7 @@ public class AndroidMHelper implements IStatusBarFontHelper {
             if (isFontColorDark) {
                 // 沉浸式
                 //非沉浸式
-                int flag = VirtualKeyUtils.getInstance().checkVirualkey(activity);
-                if (flag > 0)
-                    activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | flag);
-                else
+
                     activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             } else {
                 //非沉浸式

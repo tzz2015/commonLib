@@ -96,6 +96,8 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         ButterKnife.bind(this);
         // 设置透明状态栏
         StatusBarUtil.setColor(this, CommonUtils.getColor(this, com.zyf.fwms.commonlibrary.R.color.colorTitle),0);
+        VirtualKeyUtils.getInstance().init(findViewById(android.R.id.content));
+
         initLisener();
         mContext =this;
         //根据设计稿设定 preview 切换至对应的尺寸

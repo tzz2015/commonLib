@@ -1,13 +1,9 @@
 package com.zyf.fwms.commonlibrary.utils;
 
-import android.app.Activity;
-import android.content.res.Resources;
-import android.os.Build;
+import android.graphics.Rect;
 import android.view.View;
-
-import com.zyf.fwms.commonlibrary.http.HttpUtils;
-
-import java.lang.reflect.Method;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 /**
  * 创建 by lyf on 2018/2/5.
@@ -15,13 +11,10 @@ import java.lang.reflect.Method;
  */
 
 public class VirtualKeyUtils {
-    private View decorView;
 
-
-    public static VirtualKeyUtils instance;
-
-    public static VirtualKeyUtils getInstance() {
-        if (instance == null) {
+    private static VirtualKeyUtils instance;
+    public static VirtualKeyUtils getInstance(){
+        if(instance==null){
             synchronized (VirtualKeyUtils.class) {
                 if (instance == null) {
                     instance = new VirtualKeyUtils();
@@ -31,58 +24,65 @@ public class VirtualKeyUtils {
         return instance;
     }
 
-    public void init(Activity activity) {
-        //获取顶层视图
-        decorView = activity.getWindow().getDecorView();
-        int flag = checkVirualkey(activity);
-        // 获取属性
-        if (flag > 0) decorView.setSystemUiVisibility(flag);
 
-    }
+    private View mChildOfContent;
+    private int usableHeightPrevious;
+    private ViewGroup.LayoutParams frameLayoutParams;
 
-    /**
-     * 检查是否有虚拟键
-     */
-    public int checkVirualkey(Activity activity) {
-        int flag = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide
-               // | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        //判断当前版本在4.0以上并且存在虚拟按键，否则不做操作
-        if (Build.VERSION.SDK_INT < 19 || !checkDeviceHasNavigationBar(activity))
-            return 0;
-        else return flag;
-
-    }
-
-    /**
-     * 判断是否存在虚拟按键
-     *
-     * @return
-     */
-    private boolean checkDeviceHasNavigationBar(Activity activity) {
-        boolean hasNavigationBar = false;
-        Resources rs = activity.getResources();
-        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
-        if (id > 0) {
-            hasNavigationBar = rs.getBoolean(id);
-        }
-        try {
-            Class<?> systemPropertiesClass = Class.forName("android.os.SystemProperties");
-            Method m = systemPropertiesClass.getMethod("get", String.class);
-            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
-            if ("1".equals(navBarOverride)) {
-                hasNavigationBar = false;
-            } else if ("0".equals(navBarOverride)) {
-                hasNavigationBar = true;
+    public void init(View content) {
+        mChildOfContent = content;
+        mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                possiblyResizeChildOfContent();
             }
-        } catch (Exception e) {
-
-        }
-        return hasNavigationBar;
+        });
+        frameLayoutParams = mChildOfContent.getLayoutParams();
     }
 
+    public void possiblyResizeChildOfContent() {
+        if(mChildOfContent==null) return;
+        int usableHeightNow = computeUsableHeight();
+        //int usableHeightNow = AutoUtils.displayHeight;
 
+        if (usableHeightNow != usableHeightPrevious) {
+            //如果两次高度不一致
+
+
+//            int usableHeightSansKeyboard = mChildOfContent.getRootView().getHeight();
+//            int heightDifference = usableHeightSansKeyboard - usableHeightNow;
+//            if (heightDifference > (usableHeightSansKeyboard / 4)) {
+//                // keyboard probably just became visible
+//                isKeyBordVisiable=true;
+//            } else {
+//                // keyboard probably just became hidden
+//                isKeyBordVisiable=false;
+//            }
+            //将计算的可视高度设置成视图的高度
+            frameLayoutParams.height = usableHeightNow;
+            mChildOfContent.requestLayout();//请求重新布局
+            usableHeightPrevious = usableHeightNow;
+        }
+    }
+
+    /**
+     * 用于隐藏状态栏的页面
+     */
+    public void noBarResizeChildOfContent(){
+        if(mChildOfContent==null) return;
+        mChildOfContent.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                frameLayoutParams.height = AutoUtils.displayHeight;
+                mChildOfContent.requestLayout();//请求重新布局
+            }
+        },300);
+
+    }
+
+    private int computeUsableHeight() {
+        //计算视图可视高度
+        Rect r = new Rect();
+        mChildOfContent.getWindowVisibleDisplayFrame(r);
+        return (r.bottom - r.top);
+    }
 }

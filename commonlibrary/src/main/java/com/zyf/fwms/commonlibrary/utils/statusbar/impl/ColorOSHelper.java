@@ -58,10 +58,7 @@ public class ColorOSHelper implements IStatusBarFontHelper {
                     }
 
                 }
-                int flag = VirtualKeyUtils.getInstance().checkVirualkey(activity);
-                if(flag>0)
-                window.getDecorView().setSystemUiVisibility(vis|flag);
-                else  window.getDecorView().setSystemUiVisibility(vis);
+                 window.getDecorView().setSystemUiVisibility(vis);
                 result = true;
             } catch (Exception e) {
                 e.printStackTrace();
