@@ -39,11 +39,10 @@ import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- *
  * 刘宇飞创建 on 2017/5/18.
  * 描述：
  */
-public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBinding> extends FragmentActivity  {
+public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataBinding> extends FragmentActivity {
     //布局view
     protected SV mBindingView;
     private CompositeSubscription mCompositeSubscription;
@@ -52,7 +51,6 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     public E mPresenter;
     private RxPermissions rxPermissions;
     private ActivityBaseBinding mBaseBinding;
-
 
 
     private SwipeBackLayout swipeBackLayout;
@@ -95,11 +93,14 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         getWindow().setContentView(swipeBackLayout);
         ButterKnife.bind(this);
         // 设置透明状态栏
-        StatusBarUtil.setColor(this, CommonUtils.getColor(this, com.zyf.fwms.commonlibrary.R.color.colorTitle),0);
-        VirtualKeyUtils.getInstance().init(findViewById(android.R.id.content));
-
+        StatusBarUtil.setColor(this, CommonUtils.getColor(this, com.zyf.fwms.commonlibrary.R.color.colorTitle), 0);
+        //判断是否有虚拟键
+        boolean navigationBar = CommonUtils.checkDeviceHasNavigationBar(this);
+        //虚拟键适配
+        if (navigationBar)
+            VirtualKeyUtils.getInstance().init(findViewById(android.R.id.content));
         initLisener();
-        mContext =this;
+        mContext = this;
         //根据设计稿设定 preview 切换至对应的尺寸
         AutoUtils.setSize(this, false, 720, 1280);
         //自适应页面
@@ -133,69 +134,73 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     /**
      * 隐藏标题栏
      */
-      protected void hideTitleBar(){
-          mBaseBinding.commonTitle.rlTitleBar.setVisibility(View.GONE);
-      }
+    protected void hideTitleBar() {
+        mBaseBinding.commonTitle.rlTitleBar.setVisibility(View.GONE);
+    }
+
     /**
      * 隐藏返回箭头
      */
-    protected void hideBackImg(){
+    protected void hideBackImg() {
         mBaseBinding.commonTitle.llLiftBack.setVisibility(View.GONE);
     }
+
     /**
      * 设置标题
      */
-     protected void setTitle(String title){
-         mBaseBinding.commonTitle.tvTitle.setText(CommonUtils.isNotEmpty(title)?title:"");
-     }
+    protected void setTitle(String title) {
+        mBaseBinding.commonTitle.tvTitle.setText(CommonUtils.isNotEmpty(title) ? title : "");
+    }
+
     /**
      * 设置右侧文字
      */
-    protected void setRightTitle(String rightTitle, View.OnClickListener listener){
-        mBaseBinding.commonTitle.tvRightText.setText(CommonUtils.isNotEmpty(rightTitle)?rightTitle:"");
+    protected void setRightTitle(String rightTitle, View.OnClickListener listener) {
+        mBaseBinding.commonTitle.tvRightText.setText(CommonUtils.isNotEmpty(rightTitle) ? rightTitle : "");
         mBaseBinding.commonTitle.llRightText.setVisibility(View.VISIBLE);
         mBaseBinding.commonTitle.llRightImg.setVisibility(View.GONE);
-        if(listener!=null){
+        if (listener != null) {
             mBaseBinding.commonTitle.llRightText.setOnClickListener(listener);
         }
     }
+
     /**
      * 设置右侧图片
      */
-    protected void setRightImg(int img, View.OnClickListener listener){
+    protected void setRightImg(int img, View.OnClickListener listener) {
         mBaseBinding.commonTitle.llRightText.setVisibility(View.GONE);
         mBaseBinding.commonTitle.llRightImg.setVisibility(View.VISIBLE);
-        if(img>0){
+        if (img > 0) {
             mBaseBinding.commonTitle.ivRightImg.setImageResource(img);
         }
-        if(listener!=null){
+        if (listener != null) {
             mBaseBinding.commonTitle.llRightImg.setOnClickListener(listener);
         }
     }
 
 
-
-
-    public  interface EditViewLisener{
+    public interface EditViewLisener {
         void searchText(String searchText);
+
         void onTextChanged(String searchText);
     }
+
     /**
      * 设置右侧图片
      */
-    protected void setRightImg(int img, View.OnClickListener listener,float width,float height){
+    protected void setRightImg(int img, View.OnClickListener listener, float width, float height) {
         mBaseBinding.commonTitle.llRightText.setVisibility(View.GONE);
         mBaseBinding.commonTitle.llRightImg.setVisibility(View.VISIBLE);
-        if(img>0){
+        if (img > 0) {
             mBaseBinding.commonTitle.ivRightImg.setImageResource(img);
         }
-        if(listener!=null){
+        if (listener != null) {
             mBaseBinding.commonTitle.llRightImg.setOnClickListener(listener);
         }
-        if(width>0&&height>0){
+        if (width > 0 && height > 0) {
             ViewGroup.LayoutParams layoutParams = mBaseBinding.commonTitle.ivRightImg.getLayoutParams();
-            layoutParams.width= CommonUtils.dip2px(mContext,width);
-            layoutParams.height= CommonUtils.dip2px(mContext,height);
+            layoutParams.width = CommonUtils.dip2px(mContext, width);
+            layoutParams.height = CommonUtils.dip2px(mContext, height);
             mBaseBinding.commonTitle.ivRightImg.setLayoutParams(layoutParams);
         }
     }
@@ -208,16 +213,19 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
     }
 
     /**
-     *显示toast
+     * 显示toast
+     *
      * @param title
      */
-    protected   void showToast(String title) {
-      CommonUtils.showToast(mContext,title);
+    protected void showToast(String title) {
+        CommonUtils.showToast(mContext, title);
     }
+
     private KProgressHUD mProgressDialog;
 
     /**
      * 显示进度框
+     *
      * @param str
      */
     public final void showInfoProgressDialog(final String... str) {
@@ -235,6 +243,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
             mProgressDialog.show();
         }
     }
+
     /**
      * 隐藏等待条
      */
@@ -249,7 +258,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
      * 请求权限
      */
     public void requestPermission(String[] permissions) {
-        if(rxPermissions==null){
+        if (rxPermissions == null) {
             rxPermissions = new RxPermissions(this);
         }
         Subscription subscribe = rxPermissions
@@ -265,20 +274,21 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
 
     /**
      * 请求结果
+     *
      * @param aBoolean
      */
     protected void requestPermissionCallBack(Boolean aBoolean) {
-        RxBus.getDefault().post(RxCodeConstants.SHOW_TOAST,"请求权限结果:"+aBoolean);
+        RxBus.getDefault().post(RxCodeConstants.SHOW_TOAST, "请求权限结果:" + aBoolean);
     }
 
     /**
      * 显示错误页面或正常页面
      */
-    protected void showErroView(boolean isShow){
-        if(isShow){
+    protected void showErroView(boolean isShow) {
+        if (isShow) {
             mBaseBinding.llErrorRefresh.setVisibility(View.VISIBLE);
             mBindingView.getRoot().setVisibility(View.GONE);
-        }else {
+        } else {
             mBaseBinding.llErrorRefresh.setVisibility(View.GONE);
             mBindingView.getRoot().setVisibility(View.VISIBLE);
         }
@@ -286,10 +296,11 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
 
     /**
      * 添加网络请求观察者
+     *
      * @param s
      */
     public void addSubscription(Subscription s) {
-        if(s==null){
+        if (s == null) {
             return;
         }
         if (this.mCompositeSubscription == null) {
@@ -305,9 +316,10 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         CommonUtils.getInstance().removeSubscription();
         if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
             this.mCompositeSubscription.unsubscribe();
-            this.mCompositeSubscription=null;
+            this.mCompositeSubscription = null;
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -320,6 +332,7 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
             }
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -331,7 +344,6 @@ public abstract class BaseActivity<E extends BasePresenter,SV extends ViewDataBi
         }
         ButterKnife.unbind(this);
     }
-
 
 
     public SwipeBackLayout getSwipeBackLayout() {

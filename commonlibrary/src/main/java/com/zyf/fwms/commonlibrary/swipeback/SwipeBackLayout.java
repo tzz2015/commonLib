@@ -55,7 +55,8 @@ public class SwipeBackLayout extends ViewGroup {
     private int maskAlpha = 125;
     private boolean isSwipeFromEdge = false;
     private float downX, downY;
-    private boolean isCanSwipeBack=true;
+    private boolean isCanSwipeBack=true;//是否可以侧滑
+    private int canSwipeBackistance=100;//可以触发侧滑的距离
 
     private int leftOffset = 0;
     private int topOffset = 0;
@@ -153,6 +154,11 @@ public class SwipeBackLayout extends ViewGroup {
             case MotionEvent.ACTION_DOWN:
                 downX = ev.getRawX();
                 downY = ev.getRawY();
+                // 距离小于canSwipeBackistance 才触发
+                if (mDirectionMode == FROM_LEFT )
+                    if(downX>canSwipeBackistance) return false;
+                if (mDirectionMode == FROM_TOP )
+                    if(downY>canSwipeBackistance) return false;
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (innerScrollView != null && Util.contains(innerScrollView, downX, downY)) {
