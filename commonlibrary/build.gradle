@@ -56,9 +56,7 @@ dependencies {
     /** 拍照 */
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile files('libs/tbs_sdk_thirdapp_v2.4.0.1073_36840_sharewithdownload_withoutGame_obfs_20161011_194834.jar')
+    implementation files('libs/tbs_sdk_thirdapp_v2.4.0.1073_36840_sharewithdownload_withoutGame_obfs_20161011_194834.jar')
     /** */
     compile 'com.contrarywind:Android-PickerView:3.2.4'
-    // logger
-    compile 'com.orhanobut:logger:1.15'
 }

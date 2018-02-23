@@ -6,8 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fl_content"
-        android:paddingTop="55px"
-        android:background="@color/colorWhite"
         tools:context="com.example.a11829.commonlib.TencentX5Activity">
 
     </FrameLayout>

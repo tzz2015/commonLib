@@ -8,7 +8,6 @@ import android.widget.FrameLayout;
 
 import com.example.a11829.commonlib.base.BaseActivity;
 import com.example.a11829.commonlib.base.BasePresenter;
-import com.example.a11829.commonlib.contact.DemoActivityContact;
 import com.example.a11829.commonlib.databinding.ActivityTencentX5Binding;
 import com.example.xrecyclerview.CheckNetwork;
 import com.tencent.smtt.sdk.WebSettings;
@@ -16,11 +15,10 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
 import com.zyf.fwms.commonlibrary.utils.LogUtil;
-import com.zyf.fwms.commonlibrary.utils.statusbar.StatusBarFontHelper;
 import com.zyf.fwms.commonlibrary.x5webview.X5WebView;
 import com.zyf.fwms.commonlibrary.x5webview.X5WebViewJavaScriptFunction;
 
-public class TencentX5Activity extends BaseActivity<BasePresenter,ActivityTencentX5Binding,DemoActivityContact.View> {
+public class TencentX5Activity extends BaseActivity<BasePresenter,ActivityTencentX5Binding> {
 
     private X5WebView webView;
     private WebSettings settings;
@@ -33,10 +31,6 @@ public class TencentX5Activity extends BaseActivity<BasePresenter,ActivityTencen
 
     @Override
     protected void initView() {
-        hideTitleBar();
-        //设置标题栏字体为黑色
-        StatusBarFontHelper.setStatusBarMode(this, true);
-        CommonUtils.hideStatusLan(this);
         webView = new X5WebView(mContext.getApplicationContext());
         mBindingView.flContent.removeAllViews();
         mBindingView.flContent.addView(webView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
@@ -47,11 +41,9 @@ public class TencentX5Activity extends BaseActivity<BasePresenter,ActivityTencen
     }
 
     @Override
-    protected void initData() {
+    protected void initPresenter() {
 
     }
-
-
 
 
     private void initSetting() {

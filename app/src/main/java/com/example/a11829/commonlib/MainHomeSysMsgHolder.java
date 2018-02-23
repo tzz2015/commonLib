@@ -1,10 +1,11 @@
 package com.example.a11829.commonlib;
 
+import android.content.Intent;
 import android.view.ViewGroup;
 
 
 import com.example.a11829.commonlib.databinding.ItemSysMsgBinding;
-import com.example.a11829.commonlib.widget.AutoScrollTextView;
+import com.example.a11829.commonlib.view.AutoScrollTextView;
 import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRecyclerModel;
 import com.zyf.fwms.commonlibrary.base.baseadapter.BaseRecyclerViewHolder;
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;

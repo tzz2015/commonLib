@@ -32,7 +32,7 @@ import rx.subscriptions.CompositeSubscription;
  * 刘宇飞创建 on 2017/5/18.
  * 描述：
  */
-public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePresenter, V extends BaseView> extends Fragment {
+public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePresenter> extends Fragment {
     //布局view
     protected SV mBindingView;
     private CompositeSubscription mCompositeSubscription;
@@ -54,8 +54,8 @@ public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePre
         if (mPresenter != null) {
             mPresenter.httpTask = mHttpTask;
             mPresenter.mContext = mContext;
-            mPresenter.setView((V)this);
         }
+        initPresenter();
         //打印类名
         LogUtil.getInstance().e(getClass().toString());
     }
@@ -81,6 +81,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding, T extends BasePre
 
     protected abstract void initView();
 
+    protected abstract void initPresenter();
 
     /**
      * 加载数据

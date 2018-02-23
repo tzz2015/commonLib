@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.example.a11829.commonlib.base.BaseActivity;
 import com.example.a11829.commonlib.base.BasePresenter;
-import com.example.a11829.commonlib.contact.DemoActivityContact;
 import com.example.a11829.commonlib.databinding.ActivityNotitleBinding;
 import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import com.zyf.fwms.commonlibrary.utils.CommonUtils;
@@ -13,7 +12,7 @@ import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
 import com.zyf.fwms.commonlibrary.utils.VirtualKeyUtils;
 import com.zyf.fwms.commonlibrary.utils.statusbar.StatusBarFontHelper;
 
-public class NotitleActivity extends BaseActivity<BasePresenter,ActivityNotitleBinding,DemoActivityContact.View>  {
+public class NotitleActivity extends BaseActivity<BasePresenter,ActivityNotitleBinding>  {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +34,7 @@ public class NotitleActivity extends BaseActivity<BasePresenter,ActivityNotitleB
     }
 
     @Override
-    protected void initData() {
+    protected void initPresenter() {
 
     }
-
-
 }
