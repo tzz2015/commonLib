@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.example.a11829.commonlib.base.BaseActivity;
 import com.example.a11829.commonlib.base.BasePresenter;
+import com.example.a11829.commonlib.contact.DemoActivityContact;
 import com.example.a11829.commonlib.databinding.ActivityMainBinding;
 import com.example.a11829.commonlib.model.TestModel;
 import com.example.xrecyclerview.XRecyclerView;
@@ -19,9 +20,13 @@ import com.zyf.fwms.commonlibrary.utils.AutoUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding> implements XRecyclerView.LoadingListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-    private List<BaseRecyclerModel> dataList=new ArrayList<>();
+public class MainActivity extends BaseActivity<BasePresenter, ActivityMainBinding,DemoActivityContact.View> implements XRecyclerView.LoadingListener {
+
+
+    private List<BaseRecyclerModel> dataList = new ArrayList<>();
     private TestAdapter adapter;
 
     @Override
@@ -33,7 +38,6 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         initRecyclerView();
 
 
-
     }
 
     @Override
@@ -42,9 +46,10 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
     }
 
     @Override
-    protected void initPresenter() {
+    protected void initData() {
 
     }
+
 
     /**
      * 初始化recyclerview
@@ -65,8 +70,8 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         adapter.setOnItemClickListener(new OnItemClickListener<BaseRecyclerModel>() {
             @Override
             public void onClick(View view, BaseRecyclerModel s, int position) {
-                if(s instanceof TestModel){
-                    showToast("点击："+((TestModel) s).name);
+                if (s instanceof TestModel) {
+                    showToast("点击：" + ((TestModel) s).name);
                 }
 
             }
@@ -74,8 +79,8 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
         adapter.setOnItemLongClickListener(new OnItemLongClickListener<BaseRecyclerModel>() {
             @Override
             public void onLongClick(View view, BaseRecyclerModel s, int position) {
-                if(s instanceof TestModel){
-                    showToast("长按："+((TestModel) s).name);
+                if (s instanceof TestModel) {
+                    showToast("长按：" + ((TestModel) s).name);
                 }
 
             }
@@ -86,15 +91,10 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
      * 初始化数据
      */
     private void initData(boolean isMore) {
-        if(!isMore){
-           dataList.clear();
+        if (!isMore) {
+            dataList.clear();
         }
-       //添加头布局
-        View view1= LinearLayout.inflate(mContext,R.layout.layout_head_view,null);
-        AutoUtils.auto(view1);
-        mBindingView.xRecyclerView.addHeaderView(view1);
 
-/*
         BaseRecyclerModel model=new BaseRecyclerModel();
         model.viewType=3;
         dataList.add(model);
@@ -110,10 +110,10 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
 
 
             dataList.add(testModel);
-        }*/
+        }
 
         mBindingView.xRecyclerView.refreshComplete();
-        if(adapter!=null){
+        if (adapter != null) {
             adapter.clear();
             adapter.addAll(dataList);
             adapter.notifyDataSetChanged();
@@ -127,6 +127,6 @@ public class MainActivity extends BaseActivity<BasePresenter,ActivityMainBinding
 
     @Override
     public void onLoadMore() {
-      initData(true);
+        initData(true);
     }
 }

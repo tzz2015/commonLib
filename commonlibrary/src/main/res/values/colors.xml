@@ -42,5 +42,7 @@
     <color name="public_red">#fa4c49</color>
     <color name="color_bbbbbb">#bbbbbb</color>
     <color name="color_99000000">#33000000</color>
+    <color name="colorAccent">#3F51B5</color>
+
 
 </resources>

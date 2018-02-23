@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -265,5 +266,18 @@ public class CommonUtils {
 
         }
         return hasNavigationBar;
+    }
+    /**
+     * 隐藏状态栏
+     *
+     * @param context
+     */
+    public static void hideStatusLan(Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            VirtualKeyUtils.getInstance().noBarResizeChildOfContent();
+        }
+
     }
 }

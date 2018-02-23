@@ -22,7 +22,7 @@ import java.util.List;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDemoBinding> implements View.OnClickListener,DemoActivityContact.View {
+public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDemoBinding,DemoActivityContact.View> implements View.OnClickListener,DemoActivityContact.View {
 
 
     @Override
@@ -49,9 +49,11 @@ public class DemoActivity extends BaseActivity<DemoActivityPresenter,ActivityDem
     }
 
     @Override
-    protected void initPresenter() {
-      mPresenter.setView(this);
+    protected void initData() {
+
     }
+
+
 
     @Override
     public void onClick(View v) {
