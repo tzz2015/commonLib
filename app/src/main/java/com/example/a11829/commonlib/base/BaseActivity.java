@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,9 @@ import com.zyf.fwms.commonlibrary.utils.SharedPreUtil;
 import com.zyf.fwms.commonlibrary.utils.StatusBarUtil;
 import com.zyf.fwms.commonlibrary.utils.TUtil;
 import com.zyf.fwms.commonlibrary.utils.VirtualKeyUtils;
+import com.zyf.fwms.commonlibrary.widget.EmptyLayout;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -42,7 +45,7 @@ import rx.subscriptions.CompositeSubscription;
  * 刘宇飞创建 on 2017/5/18.
  * 描述：
  */
-public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataBinding> extends FragmentActivity {
+public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataBinding, V extends BaseView> extends FragmentActivity implements BaseView {
     //布局view
     protected SV mBindingView;
     private CompositeSubscription mCompositeSubscription;
@@ -51,7 +54,9 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
     public E mPresenter;
     private RxPermissions rxPermissions;
     private ActivityBaseBinding mBaseBinding;
-
+    @Nullable
+    @Bind(R.id.fl_empty_layout)
+    protected EmptyLayout mEmptyLayout;
 
     private SwipeBackLayout swipeBackLayout;
 
@@ -69,8 +74,8 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
         if (mPresenter != null) {
             mPresenter.mContext = this;
             mPresenter.httpTask = mHttpTask;
+           mPresenter.setView((V)this);
         }
-        initPresenter();
         //打印类名
         LogUtil.getInstance().e(getClass().toString());
 
@@ -80,6 +85,23 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
+
+        setUserView(layoutResID);
+        initLisener();
+        //根据设计稿设定 preview 切换至对应的尺寸
+        AutoUtils.setSize(this, false, 720, 1280);
+        //自适应页面
+        AutoUtils.auto(this);
+        Glide.get(getApplicationContext()).clearMemory();
+        initView();
+        initData();
+    }
+
+    /**
+     * 设置显示的布局
+     */
+    private void setUserView(@LayoutRes int layoutResID) {
+        mContext = this;
         //标题栏已经在activity_base 不用到每个布局里面添加
         mBaseBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_base, null, false);
         mBindingView = DataBindingUtil.inflate(getLayoutInflater(), layoutResID, null, false);
@@ -87,7 +109,7 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mBindingView.getRoot().setLayoutParams(params);
         RelativeLayout mContainer = mBaseBinding.container;
-        mContainer.addView(mBindingView.getRoot());
+        mContainer.addView(mBindingView.getRoot(), 0);
         swipeBackLayout = new SwipeBackLayout(this);
         swipeBackLayout.addView(mBaseBinding.getRoot());
         getWindow().setContentView(swipeBackLayout);
@@ -99,30 +121,15 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
         //虚拟键适配
         if (navigationBar)
             VirtualKeyUtils.getInstance().init(findViewById(android.R.id.content));
-        initLisener();
-        mContext = this;
-        //根据设计稿设定 preview 切换至对应的尺寸
-        AutoUtils.setSize(this, false, 720, 1280);
-        //自适应页面
-        AutoUtils.auto(this);
-        Glide.get(getApplicationContext()).clearMemory();
-        initView();
-
-
     }
 
     protected abstract void initView();
 
-    protected abstract void initPresenter();
+    protected abstract void initData();
 
 
     private void initLisener() {
-        mBaseBinding.llErrorRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRefresh();
-            }
-        });
+
         mBaseBinding.commonTitle.llLiftBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,12 +212,6 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
         }
     }
 
-    /**
-     * 失败后点击刷新
-     */
-    protected void onRefresh() {
-
-    }
 
     /**
      * 显示toast
@@ -225,32 +226,56 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
 
     /**
      * 显示进度框
-     *
-     * @param str
      */
-    public final void showInfoProgressDialog(final String... str) {
+    @Override
+    public void showInfoProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new KProgressHUD(this);
             mProgressDialog.setCancellable(true);
         }
-        if (str.length == 0) {
-            mProgressDialog.setLabel("加载中...");
-        } else {
-            mProgressDialog.setLabel(str[0]);
-        }
+
 
         if (!mProgressDialog.isShowing()) {
             mProgressDialog.show();
         }
     }
 
+
     /**
      * 隐藏等待条
      */
-    public final void hideInfoProgressDialog() {
+    @Override
+    public void hideInfoProgressDialog() {
         CommonUtils.getInstance().hideInfoProgressDialog();
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
+        }
+    }
+
+    /**
+     * 显示无网络
+     */
+    @Override
+    public void showNetError() {
+        if (mEmptyLayout != null) {
+            mEmptyLayout.setEmptyStatus(EmptyLayout.STATUS_NO_NET);
+            mEmptyLayout.setRetryListener(new EmptyLayout.OnRetryListener() {
+                @Override
+                public void onRetry() {
+                    initData();
+                }
+            });
+        }
+
+    }
+
+    /**
+     * 隐藏无网络
+     */
+    @Override
+    public void hideNetError() {
+        if (mEmptyLayout != null) {
+            mEmptyLayout.hide();
         }
     }
 
@@ -281,18 +306,6 @@ public abstract class BaseActivity<E extends BasePresenter, SV extends ViewDataB
         RxBus.getDefault().post(RxCodeConstants.SHOW_TOAST, "请求权限结果:" + aBoolean);
     }
 
-    /**
-     * 显示错误页面或正常页面
-     */
-    protected void showErroView(boolean isShow) {
-        if (isShow) {
-            mBaseBinding.llErrorRefresh.setVisibility(View.VISIBLE);
-            mBindingView.getRoot().setVisibility(View.GONE);
-        } else {
-            mBaseBinding.llErrorRefresh.setVisibility(View.GONE);
-            mBindingView.getRoot().setVisibility(View.VISIBLE);
-        }
-    }
 
     /**
      * 添加网络请求观察者
