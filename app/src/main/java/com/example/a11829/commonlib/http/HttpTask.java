@@ -1,6 +1,7 @@
 package com.example.a11829.commonlib.http;
 
 import com.example.a11829.commonlib.model.AccountInputModel;
+import com.google.gson.JsonObject;
 import com.zyf.fwms.commonlibrary.http.Api;
 import com.zyf.fwms.commonlibrary.http.BaseRespose;
 import com.zyf.fwms.commonlibrary.model.AccountInfo;
@@ -24,6 +25,6 @@ public interface HttpTask {
     /**
      * 登录
      **/
-    @POST(Api.LOGINSMS)
-    Observable<BaseRespose<UserInfoModel>> requestLogin(@Body AccountInputModel pram);
+    @GET(Api.LIVE_LIST)
+    Observable<JsonObject> requestLogin();
 }

@@ -24,7 +24,7 @@ public abstract class BasePresenter<T> {
     public void setView(T v) {
         this.mView = v;
         this.onStart();
-        mViewRef = new WeakReference<T>(v);
+        mViewRef = new WeakReference<T>(this.mView);
     }
 
 
